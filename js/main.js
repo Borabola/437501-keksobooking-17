@@ -6,6 +6,14 @@ var MIN_Y_COORD = 130;
 var MAX_Y_COORD = 630;
 var ADS_COUNT = 8;
 var FIRST_AD = 1;
+var PIN_WIDTH = 40;
+var PIN_HEIGHT = 62;
+
+var map = document.querySelector('.map');
+var pinTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
+var divPin = document.querySelector('.map__pins');
 
 // eslint-disable-next-line valid-jsdoc
 /**
@@ -59,6 +67,7 @@ function getRandom(min, max) {
   return rand;
 }
 
+
 /**
  * Функция получения имени фото
  * @param {number} index порядковый номер фото автора
@@ -83,15 +92,22 @@ function generateAdv(arr) {
   var x = getRandom(MIN_X_COORD, MAP_WIDTH);
   var y = getRandom(MIN_Y_COORD, MAX_Y_COORD);
   var ad = {
-    author: author,
-    offer: offer,
-    location: x + ', ' + y
+    author: {
+      'avatar': author
+    },
+    offer: {
+      type: offer
+    },
+    location: {
+      x: x,
+      y: y
+    }
   };
   return ad;
 }
 
 
-/**
+/** Функция создания массива из указанного количества объектов
  * @param {number} count количество объявлений, которое надо сгенерировать
  * @return {Ads[]}
  */
@@ -104,5 +120,42 @@ function generateAds(count) {
   return ads;
 }
 
-generateAds(ADS_COUNT);
-/* console.log(generateAds(ADS_COUNT));*/
+/**
+ * Функция создает запись положения пина с учетом его размеров
+ * @param {number} x
+ * @param {number} y
+ * @return {string}
+ */
+function getPinLocation(x, y) {
+  var PinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;"';
+  return PinLocation;
+}
+
+/**
+ * функция берет объект объявления и создает разметку объявления
+ * @param {Ad} ad - объект обявления
+ * @return {Node} Element DOM элемент, представляющий героя
+ */
+function renderAd(ad) {
+  var pinLocation = getPinLocation(ad.location.x, ad.location.y);
+  var adElement = pinTemplate.cloneNode(true);
+  adElement.setAttribute('style', pinLocation);
+  adElement.children[0].setAttribute('src', ad.author.avatar);
+  adElement.setAttribute('alt', ad.offer.type);
+  return adElement;
+}
+
+/**
+ * Функция берет необходимое количество oбъявлений, добавляет фрагмент описания героя из массива объектов указанное кол-во раз
+ * @param {number} count
+ */
+function renderAds(count) {
+  var ads = generateAds(ADS_COUNT);
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < count; i++) {
+    fragment.appendChild(renderAd(ads[i]));
+  }
+  divPin.appendChild(fragment);
+}
+renderAds(ADS_COUNT);
+map.classList.remove('map--faded');
