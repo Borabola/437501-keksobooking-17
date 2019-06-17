@@ -1,13 +1,13 @@
 'use strict';
-var type = ['palace', 'flat', 'house', 'bungalo'];
-var MAP_WIDTH = 1200;
+var imagesInOrder = ['01', '02', '03', '04', '05', '06', '07', '08'];
+var types = ['palace', 'flat', 'house', 'bungalo'];
+var MAP_WIDTH = document.querySelector('.map__pins').offsetWidth;
 var MIN_X_COORD = 0;
 var MIN_Y_COORD = 130;
 var MAX_Y_COORD = 630;
 var ADS_COUNT = 8;
-var FIRST_AD = 1;
-var PIN_WIDTH = 40;
-var PIN_HEIGHT = 62;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 
 var map = document.querySelector('.map');
 var pinTemplate = document.querySelector('#pin')
@@ -15,28 +15,12 @@ var pinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var divPin = document.querySelector('.map__pins');
 
-// eslint-disable-next-line valid-jsdoc
-/**
- * Функция создания массива последовательных чисел
- *@param {numder} min начало массива
- *@param {numder} max конец массива
- *@return {[]Arrs]}
- */
-function getArr(min, max) {
-  var arrs = [];
-
-  for (var i = (min - 1); i < max; i++) {
-    arrs[i] = i + 1;
-  }
-  return arrs;
-}
-
 /**
  * Функция перемешивания массива
  *@param {[]} arr
- *@return {[Arr]} перемешенный массив
+ *@return {number[]} перемешенный массив
  */
-function shuffle(arr) {
+function shuffleImg(arr) {
   for (var i = arr.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var temp = arr[j];
@@ -44,16 +28,6 @@ function shuffle(arr) {
     arr[i] = temp;
   }
   return arr;
-}
-
-/**
- * Функция случайного выбора типа жилья
- * @param {Type} массив возможных типов жилья
- * @return {number} случайный элеммент массива
- */
-function getTypeOfAccommodation() {
-  var randIndex = Math.floor(Math.random() * type.length);
-  return (type[randIndex]);
 }
 
 /**
@@ -67,33 +41,32 @@ function getRandom(min, max) {
   return rand;
 }
 
-
 /**
- * Функция получения имени фото
- * @param {number} index порядковый номер фото автора
- * @return {string} author название фото
+ * Функция создает массив путей к картинкам
+ * @param {number} count
+ * @return {string[]}
  */
-function getImage(index) {
-  var shuffledArr = shuffle(getArr(FIRST_AD, ADS_COUNT));
-  var author = 'img/avatars/user0' + shuffledArr[index] + '.png';
-  return author;
+function getImages(count) {
+  var shuffledImages = shuffleImg(imagesInOrder);
+  var images = [];
+  for (var i = 0; i < count; i++) {
+    images.push('img/avatars/user' + shuffledImages[i] + '.png');
+  }
+  return images;
 }
 
 /**
  * Функция создания объекта объявления
- * @param {[]} arr массив для номеров фото
- * @return {Ad} Объект Объявление
+ * @param {string} imageUrl
+ * @return {{offer: {type: number}, author: {avatar: string}, location: {x: number, y: number}}}
  */
-function generateAdv(arr) {
-  for (var i = 0; i < arr.length; i++) {
-    var author = getImage(i);
-  }
-  var offer = getTypeOfAccommodation(type);
+function generateAd(imageUrl) {
+  var offer = types[getRandom(0, types.lenght)];
   var x = getRandom(MIN_X_COORD, MAP_WIDTH);
   var y = getRandom(MIN_Y_COORD, MAX_Y_COORD);
   var ad = {
     author: {
-      'avatar': author
+      'avatar': imageUrl
     },
     offer: {
       type: offer
@@ -106,16 +79,16 @@ function generateAdv(arr) {
   return ad;
 }
 
-
-/** Функция создания массива из указанного количества объектов
- * @param {number} count количество объявлений, которое надо сгенерировать
- * @return {Ads[]}
+/**
+ *  Функция создания массива из указанного количества объектов
+ * @param {number} count
+ * @return {{offer: {type: number}, author: {avatar: string}, location: {x: number, y: number}}[]}
  */
 function generateAds(count) {
+  var images = getImages(count);
   var ads = [];
-  var shuffledArr = shuffle(getArr(FIRST_AD, ADS_COUNT));
-  for (var i = 0; i < count; i++) {
-    ads.push(generateAdv(shuffledArr));
+  for (var i = 0; i < images.length; i++) {
+    ads.push(generateAd(images[i]));
   }
   return ads;
 }
@@ -127,8 +100,8 @@ function generateAds(count) {
  * @return {string}
  */
 function getPinLocation(x, y) {
-  var PinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;"';
-  return PinLocation;
+  var pinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;"';
+  return pinLocation;
 }
 
 /**
@@ -153,7 +126,8 @@ function renderAds(count) {
   var ads = generateAds(ADS_COUNT);
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < count; i++) {
-    fragment.appendChild(renderAd(ads[i]));
+    var ad = ads[i];
+    fragment.appendChild(renderAd(ad));
   }
   divPin.appendChild(fragment);
 }
