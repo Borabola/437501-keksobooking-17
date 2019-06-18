@@ -17,10 +17,10 @@ var divPin = document.querySelector('.map__pins');
 
 /**
  * Функция перемешивания массива
- *@param {[]} arr
+ *@param {*[]} arr
  *@return {number[]} перемешенный массив
  */
-function shuffleImg(arr) {
+function shuffle(arr) {
   for (var i = arr.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
     var temp = arr[j];
@@ -47,7 +47,7 @@ function getRandom(min, max) {
  * @return {string[]}
  */
 function getImages(count) {
-  var shuffledImages = shuffleImg(imagesInOrder);
+  var shuffledImages = shuffle(imagesInOrder);
   var images = [];
   for (var i = 0; i < count; i++) {
     images.push('img/avatars/user' + shuffledImages[i] + '.png');
@@ -82,7 +82,15 @@ function generateAd(imageUrl) {
 /**
  *  Функция создания массива из указанного количества объектов
  * @param {number} count
- * @return {{offer: {type: number}, author: {avatar: string}, location: {x: number, y: number}}[]}
+ * @return {
+ * {offer:
+ *   {type: number},
+ * author:
+ *   {avatar: string},
+ * location: {
+ *   x: number,
+ *   y: number}
+ * }[]}
  */
 function generateAds(count) {
   var images = getImages(count);
@@ -100,13 +108,21 @@ function generateAds(count) {
  * @return {string}
  */
 function getPinLocation(x, y) {
-  var pinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;"';
+  var pinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
   return pinLocation;
 }
 
 /**
  * функция берет объект объявления и создает разметку объявления
- * @param {Ad} ad - объект обявления
+ * @param {
+ * {offer:
+ *   {type: number},
+ * author:
+ *   {avatar: string},
+ * location: {
+ *   x: number,
+ *   y: number}
+ * }} ad - объект обявления
  * @return {Node} Element DOM элемент, представляющий героя
  */
 function renderAd(ad) {
@@ -119,17 +135,24 @@ function renderAd(ad) {
 }
 
 /**
- * Функция берет необходимое количество oбъявлений, добавляет фрагмент описания героя из массива объектов указанное кол-во раз
- * @param {number} count
+ * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
+ * @param {
+ * {offer:
+ *   {type: number},
+ * author:
+ *   {avatar: string},
+ * location: {
+ *   x: number,
+ *   y: number}
+ * }[]} ads
  */
-function renderAds(count) {
-  var ads = generateAds(ADS_COUNT);
+function renderAds(ads) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < count; i++) {
+  for (var i = 0; i < ads.length; i++) {
     var ad = ads[i];
     fragment.appendChild(renderAd(ad));
   }
   divPin.appendChild(fragment);
 }
-renderAds(ADS_COUNT);
+renderAds(generateAds(ADS_COUNT));
 map.classList.remove('map--faded');
