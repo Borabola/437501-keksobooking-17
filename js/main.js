@@ -37,8 +37,7 @@ function shuffle(arr) {
  * @return {number} случайный число
  */
 function getRandom(min, max) {
-  var rand = min + Math.floor(Math.random() * (max + 1 - min));
-  return rand;
+  return min + Math.floor(Math.random() * (max + 1 - min));
 }
 
 /**
@@ -58,7 +57,16 @@ function getImages(count) {
 /**
  * Функция создания объекта объявления
  * @param {string} imageUrl
- * @return {{offer: {type: number}, author: {avatar: string}, location: {x: number, y: number}}}
+ * @return {
+ * {
+ * author:
+ *   {avatar: string},
+ * offer:
+ *   {type: string},
+ * location: {
+ *   x: number,
+ *   y: number}
+ * }}
  */
 function generateAd(imageUrl) {
   var offer = types[getRandom(0, types.lenght)];
@@ -83,10 +91,11 @@ function generateAd(imageUrl) {
  *  Функция создания массива из указанного количества объектов
  * @param {number} count
  * @return {
- * {offer:
- *   {type: number},
+ * {
  * author:
  *   {avatar: string},
+ * offer:
+ *   {type: string},
  * location: {
  *   x: number,
  *   y: number}
@@ -108,15 +117,14 @@ function generateAds(count) {
  * @return {string}
  */
 function getPinLocation(x, y) {
-  var pinLocation = 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
-  return pinLocation;
+  return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
 }
 
 /**
  * функция берет объект объявления и создает разметку объявления
  * @param {
  * {offer:
- *   {type: number},
+ *   {type: string},
  * author:
  *   {avatar: string},
  * location: {
@@ -137,11 +145,11 @@ function renderAd(ad) {
 /**
  * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
  * @param {
- * {offer:
- *   {type: number},
- * author:
+ * {author:
  *   {avatar: string},
- * location: {
+ *  offer:
+ *   {type: string},
+ *  location: {
  *   x: number,
  *   y: number}
  * }[]} ads
