@@ -24,6 +24,7 @@ var adFormFielsetList = adForm.querySelectorAll('fieldset');
 var adFormAddress = adForm.querySelector('#address');
 
 
+
 /**
  * Функция перемешивания массива
  *@param {*[]} arr
