@@ -8,12 +8,20 @@ var MAX_Y_COORD = 630;
 var ADS_COUNT = 8;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var pinLocations = [];
 
 var map = document.querySelector('.map');
+var mapPinButton = map.querySelector('.map__pin--main');
 var pinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 var divPin = document.querySelector('.map__pins');
+
+var mapFilter = document.querySelector('.map__filters-container');
+var mapFilterFielsetList = mapFilter.querySelectorAll('fieldset');
+var adForm = document.querySelector('.ad-form');
+var adFormFielsetList = adForm.querySelectorAll('fieldset');
+var adFormAddress = adForm.querySelector('#address');
 
 /**
  * Функция перемешивания массива
@@ -162,5 +170,68 @@ function renderAds(ads) {
   }
   divPin.appendChild(fragment);
 }
-renderAds(generateAds(ADS_COUNT));
-map.classList.remove('map--faded');
+
+/**
+ * Функция определения начальных координат метки
+ * @return {number[]} pinX, pinY
+ */
+function getMainPinLocation() {
+  var pinX = Math.floor(mapPinButton.offsetLeft + mapPinButton.offsetWidth / 2);
+  var pinY = Math.floor(mapPinButton.offsetTop + mapPinButton.offsetHeight);
+  var pinYinitial = pinY - PIN_HEIGHT + mapPinButton.offsetWidth / 2;
+  pinLocations[0] = pinX;
+  pinLocations[1] = pinY;
+  pinLocations[2] = pinYinitial;
+  return pinLocations;
+}
+
+/**
+ * Функция берет координаты pinX и pinY и записывает их в строку адреса
+ * @param {boolean} isInitial после открытия страницы isInitial= true, после активации isInitial= false
+ */
+function fillAddress(isInitial) {
+  getMainPinLocation();
+  if (isInitial) {
+    var addressLine = pinLocations[0] + ', ' + pinLocations[2];
+  } else {
+    addressLine = pinLocations[0] + ', ' + pinLocations[1];
+  }
+  adFormAddress.value = addressLine;
+}
+
+/**
+ * Функция дабавляет/убирает атрибут disabled к элементу
+ * @param {element[]} elementList
+ * @param {boolean} value
+ */
+function disabledElement(elementList, value) {
+  for (var i = 0; i < elementList.length; i++) {
+    elementList[i].disabled = value;
+  }
+}
+
+/* Активное состояние */
+function activatePage() {
+  disabledElement(adFormFielsetList, false);
+  disabledElement(mapFilterFielsetList, false);
+  adForm.classList.remove('ad-form--disabled');
+  map.classList.remove('map--faded');
+  fillAddress(false);
+}
+
+/**
+ * Функция обработчик события mouseup кнопки пина
+ */
+function onMapPinButtonMouseup() {
+  activatePage();
+  renderAds(generateAds(ADS_COUNT));
+  mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
+}
+
+/* Исходное состояние*/
+disabledElement(adFormFielsetList, true);
+disabledElement(mapFilterFielsetList, true);
+fillAddress(true);
+
+mapPinButton.addEventListener('mouseup', onMapPinButtonMouseup);
+
