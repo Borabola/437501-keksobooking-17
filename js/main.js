@@ -8,7 +8,6 @@ var MAX_Y_COORD = 630;
 var ADS_COUNT = 8;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-/* var pinLocations = []; */
 
 var map = document.querySelector('.map');
 var mapPinButton = map.querySelector('.map__pin--main');
@@ -16,6 +15,11 @@ var mapFilter = document.querySelector('.map__filters-container');
 var mapFilterFieldsetList = mapFilter.querySelectorAll('fieldset');
 var adForm = document.querySelector('.ad-form');
 var adFormFielsetList = adForm.querySelectorAll('fieldset');
+
+var SelectType = adForm.querySelector('#type');
+
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
 
 /**
  * Функция перемешивания массива
@@ -171,7 +175,13 @@ function renderAds(ads) {
 
 /**
  * Функция определения начальных координат метки
- * @return {number[]} pinX, pinY
+ * @return{
+ * {
+ *   mainPinX: number,
+ *   mainPinY: number,
+ *   mainPinYInitial: number
+ * }
+ * }
  */
 function getMainPinLocation() {
   var pinLocations = {};
@@ -240,5 +250,28 @@ function onMapPinButtonMouseup() {
   mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
 }
 
+function onTypeInputChange() {
+  var minPrice = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+  var inputPrice = adForm.querySelector('#price');
+  inputPrice.min = inputPrice.placeholder = minPrice[SelectType.value];
+}
+
+function onTimeInputChange() {
+  timeOut.value = timeIn.value;
+}
+
+function onTimeOutInputChange() {
+  timeIn.value = timeOut.value;
+}
+
 deactivatePage();
 mapPinButton.addEventListener('mouseup', onMapPinButtonMouseup);
+SelectType.addEventListener('change', onTypeInputChange);
+timeIn.addEventListener('change', onTimeInputChange);
+timeOut.addEventListener('change', onTimeOutInputChange);
+
