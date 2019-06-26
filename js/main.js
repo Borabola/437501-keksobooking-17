@@ -8,14 +8,18 @@ var MAX_Y_COORD = 630;
 var ADS_COUNT = 8;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
-/* var pinLocations = []; */
 
 var map = document.querySelector('.map');
 var mapPinButton = map.querySelector('.map__pin--main');
 var mapFilter = document.querySelector('.map__filters-container');
 var mapFilterFieldsetList = mapFilter.querySelectorAll('fieldset');
 var adForm = document.querySelector('.ad-form');
-var adFormFielsetList = adForm.querySelectorAll('fieldset');
+var adFormFieldsetList = adForm.querySelectorAll('fieldset');
+
+var typeOfHousing = adForm.querySelector('#type');
+
+var checkInTime = document.querySelector('#timein');
+var checkOutTime = document.querySelector('#timeout');
 
 /**
  * Функция перемешивания массива
@@ -171,7 +175,13 @@ function renderAds(ads) {
 
 /**
  * Функция определения начальных координат метки
- * @return {number[]} pinX, pinY
+ * @return{
+ * {
+ *   mainPinX: number,
+ *   mainPinY: number,
+ *   mainPinYInitial: number
+ * }
+ * }
  */
 function getMainPinLocation() {
   var pinLocations = {};
@@ -221,7 +231,7 @@ function activateElements(elementList) {
 
 /* Функция переводит страницу в активное состояние */
 function activatePage() {
-  activateElements(adFormFielsetList);
+  activateElements(adFormFieldsetList);
   activateElements(mapFilterFieldsetList);
   adForm.classList.remove('ad-form--disabled');
   map.classList.remove('map--faded');
@@ -229,7 +239,7 @@ function activatePage() {
 }
 /* Функция переводит страницу в неактивное состояние*/
 function deactivatePage() {
-  deactivateElements(adFormFielsetList);
+  deactivateElements(adFormFieldsetList);
   deactivateElements(mapFilterFieldsetList);
   fillAddress(true);
 }
@@ -240,5 +250,28 @@ function onMapPinButtonMouseup() {
   mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
 }
 
+function onTypeInputChange() {
+  var minPrice = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+  var inputPrice = adForm.querySelector('#price');
+  inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
+}
+
+function onTimeInputChange() {
+  checkOutTime.value = checkInTime.value;
+}
+
+function onTimeOutInputChange() {
+  checkInTime.value = checkOutTime.value;
+}
+
 deactivatePage();
 mapPinButton.addEventListener('mouseup', onMapPinButtonMouseup);
+typeOfHousing.addEventListener('change', onTypeInputChange);
+checkInTime.addEventListener('change', onTimeInputChange);
+checkOutTime.addEventListener('change', onTimeOutInputChange);
+
