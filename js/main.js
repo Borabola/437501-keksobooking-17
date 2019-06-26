@@ -14,12 +14,12 @@ var mapPinButton = map.querySelector('.map__pin--main');
 var mapFilter = document.querySelector('.map__filters-container');
 var mapFilterFieldsetList = mapFilter.querySelectorAll('fieldset');
 var adForm = document.querySelector('.ad-form');
-var adFormFielsetList = adForm.querySelectorAll('fieldset');
+var adFormFieldsetList = adForm.querySelectorAll('fieldset');
 
-var SelectType = adForm.querySelector('#type');
+var typeOfHousing = adForm.querySelector('#type');
 
-var timeIn = document.querySelector('#timein');
-var timeOut = document.querySelector('#timeout');
+var checkInTime = document.querySelector('#timein');
+var checkOutTime = document.querySelector('#timeout');
 
 /**
  * Функция перемешивания массива
@@ -231,7 +231,7 @@ function activateElements(elementList) {
 
 /* Функция переводит страницу в активное состояние */
 function activatePage() {
-  activateElements(adFormFielsetList);
+  activateElements(adFormFieldsetList);
   activateElements(mapFilterFieldsetList);
   adForm.classList.remove('ad-form--disabled');
   map.classList.remove('map--faded');
@@ -239,7 +239,7 @@ function activatePage() {
 }
 /* Функция переводит страницу в неактивное состояние*/
 function deactivatePage() {
-  deactivateElements(adFormFielsetList);
+  deactivateElements(adFormFieldsetList);
   deactivateElements(mapFilterFieldsetList);
   fillAddress(true);
 }
@@ -258,20 +258,20 @@ function onTypeInputChange() {
     palace: 10000
   };
   var inputPrice = adForm.querySelector('#price');
-  inputPrice.min = inputPrice.placeholder = minPrice[SelectType.value];
+  inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
 }
 
 function onTimeInputChange() {
-  timeOut.value = timeIn.value;
+  checkOutTime.value = checkInTime.value;
 }
 
 function onTimeOutInputChange() {
-  timeIn.value = timeOut.value;
+  checkInTime.value = checkOutTime.value;
 }
 
 deactivatePage();
 mapPinButton.addEventListener('mouseup', onMapPinButtonMouseup);
-SelectType.addEventListener('change', onTypeInputChange);
-timeIn.addEventListener('change', onTimeInputChange);
-timeOut.addEventListener('change', onTimeOutInputChange);
+typeOfHousing.addEventListener('change', onTypeInputChange);
+checkInTime.addEventListener('change', onTimeInputChange);
+checkOutTime.addEventListener('change', onTimeOutInputChange);
 
