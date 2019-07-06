@@ -239,7 +239,6 @@ function activatePage() {
   activateElements(mapFilterFieldsetList);
   adForm.classList.remove('ad-form--disabled');
   map.classList.remove('map--faded');
-  /* fillAddress(false); */
 }
 /* Функция переводит страницу в неактивное состояние*/
 function deactivatePage() {
@@ -322,13 +321,13 @@ function onMapPinButtonMousedown(evt) {
     moveEvt.preventDefault();
 
     var shift = {
-      x: moveEvt.clientX - map.offsetLeft,
-      y: moveEvt.clientY - map.offsetTop
+      x: moveEvt.clientX - map.offsetLeft - mapPinButton.offsetWidth / 2,
+      y: moveEvt.clientY - map.offsetTop - mapPinButton.offsetHeight
     };
 
     startCoords = {
-      x: shift.x - mapPinButton.offsetWidth / 2,
-      y: shift.y + mapPinButton.offsetHeight
+      x: shift.x,
+      y: shift.y
     };
 
     var checkedPinCoordinates = checkPinCoordinatesLimit(startCoords.x, startCoords.y);
