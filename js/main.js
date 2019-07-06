@@ -167,12 +167,13 @@ function renderAd(ad) {
 function renderAds(ads) {
   var divPin = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
-  if (!isCall) {for (var i = 0; i < ads.length; i++) {
-    var ad = ads[i];
-    fragment.appendChild(renderAd(ad));
-  }
-  divPin.appendChild(fragment);
-  isCall = true;
+  if (!isCall) {
+    for (var i = 0; i < ads.length; i++) {
+      var ad = ads[i];
+      fragment.appendChild(renderAd(ad));
+    }
+    divPin.appendChild(fragment);
+    isCall = true;
   }
 }
 
@@ -204,8 +205,6 @@ function getMainPinLocation() {
 function fillAddress(isInitial) {
   var adFormAddress = adForm.querySelector('#address');
   var pinLocations = getMainPinLocation();
-
-  console.log(pinLocations);
   if (isInitial) {
     var addressLine = pinLocations.mainPinX + ', ' + pinLocations.mainPinYInitial;
   } else {
@@ -281,7 +280,7 @@ function checkPinCoordinatesLimit(pinX, pinY) {
     yMin: 130,
     xMax: map.offsetWidth - mapPinButton.offsetWidth,
     yMax: 630
-  }
+  };
   var pinCoordinates = {
     x: pinX,
     y: pinY
@@ -336,8 +335,7 @@ function onMapPinButtonMousedown(evt) {
 
     mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
     mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
-
-  }
+  };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
