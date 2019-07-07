@@ -4,6 +4,7 @@
   var ADS_COUNT = 8;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+
   /**
    * Функция создает запись положения пина с учетом его размеров
    * @param {number} x
