@@ -1,66 +1,17 @@
 'use strict';
 (function () {
-  var types = ['palace', 'flat', 'house', 'bungalo'];
-  var MIN_X_COORD = 0;
-  var MIN_Y_COORD = 130;
-  var MAX_Y_COORD = 630;
-  var MAP_WIDTH = document.querySelector('.map__pins').offsetWidth;
   var isCall = false;
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
 
   /**
-   * Функция создания объекта объявления
-   * @param {string} imageUrl
-   * @return {
-   * {
-   * author:
-   *   {avatar: string},
-   * offer:
-   *   {type: string},
-   * location: {
-   *   x: number,
-   *   y: number}
-   * }}
+   * Функция создает запись положения пина с учетом его размеров
+   * @param {number} x
+   * @param {number} y
+   * @return {string}
    */
-  function generateAd(imageUrl) {
-    var offer = types[window.getRandom(0, types.lenght)];
-    var x = window.getRandom(MIN_X_COORD, MAP_WIDTH);
-    var y = window.getRandom(MIN_Y_COORD, MAX_Y_COORD);
-    var ad = {
-      author: {
-        'avatar': imageUrl
-      },
-      offer: {
-        type: offer
-      },
-      location: {
-        x: x,
-        y: y
-      }
-    };
-    return ad;
-  }
-
-  /**
-   *  Функция создания массива из указанного количества объектов
-   * @param {number} count
-   * @return {
-   * {
-   * author:
-   *   {avatar: string},
-   * offer:
-   *   {type: string},
-   * location: {
-   *   x: number,
-   *   y: number}
-   * }[]}
-   */
-  window.generateAds = function (count) {
-    var images = window.getImages(count);
-    var ads = [];
-    for (var i = 0; i < images.length; i++) {
-      ads.push(generateAd(images[i]));
-    }
-    return ads;
+  window.getPinLocation = function (x, y) {
+    return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
   };
 
   /**
@@ -89,6 +40,20 @@
   }
 
   /**
+   * Функция обавляет сообщение об ошибке в html
+   * @return {Node}
+   */
+  window.errorPopup = function () {
+    var main = document.querySelector('main');
+    var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
+    var errorMessage = errorTemplate.cloneNode(true);
+    main.appendChild(errorMessage);
+    return errorMessage;
+  };
+
+  /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {
    * {author:
@@ -100,7 +65,7 @@
    *   y: number}
    * }[]} ads
    */
-  window.renderAds = function (ads) {
+  window.successHandler = function (ads) {
     var divPin = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
     if (!isCall) {
@@ -111,5 +76,9 @@
       divPin.appendChild(fragment);
       isCall = true;
     }
+  };
+
+  window.errorHandler = function () {
+    window.errorPopup();
   };
 })();

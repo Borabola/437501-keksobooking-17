@@ -1,19 +1,8 @@
 'use strict';
 (function () {
+  window.map = document.querySelector('.map');
   var mapPinButton = window.map.querySelector('.map__pin--main');
-  var ADS_COUNT = 8;
-  var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
-
-  /**
-   * Функция создает запись положения пина с учетом его размеров
-   * @param {number} x
-   * @param {number} y
-   * @return {string}
-   */
-  window.getPinLocation = function (x, y) {
-    return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
-  };
 
   /**
    * Функция определения начальных координат метки
@@ -80,7 +69,8 @@
     var pinLocations = window.getMainPinLocation();
     evt.preventDefault();
     window.activatePage();
-    window.renderAds(window.generateAds(ADS_COUNT));
+    /* window.renderAds(window.generateAds(ADS_COUNT)); */
+    window.load(window.successHandler, window.errorHandler);
 
     var startCoords = {
       x: pinLocations.mainPinX,
