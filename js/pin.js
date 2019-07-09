@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   window.map = document.querySelector('.map');
-  var mapPinButton = window.map.querySelector('.map__pin--main');
+  window.mapPinButton = window.map.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
 
   /**
@@ -16,9 +16,9 @@
    */
   window.getMainPinLocation = function () {
     var pinLocations = {};
-    var pinX = Math.floor(mapPinButton.offsetLeft + mapPinButton.offsetWidth / 2);
-    var pinY = Math.floor(mapPinButton.offsetTop + mapPinButton.offsetHeight);
-    var pinYInitial = Math.floor(pinY - PIN_HEIGHT + mapPinButton.offsetWidth / 2);
+    var pinX = Math.floor(window.mapPinButton.offsetLeft + window.mapPinButton.offsetWidth / 2);
+    var pinY = Math.floor(window.mapPinButton.offsetTop + window.mapPinButton.offsetHeight);
+    var pinYInitial = Math.floor(pinY - PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
     pinLocations.mainPinX = pinX;
     pinLocations.mainPinY = pinY;
     pinLocations.mainPinYInitial = pinYInitial;
@@ -35,7 +35,7 @@
     var PIN_MAP_LIMITS = {
       xMin: 0,
       yMin: 130,
-      xMax: window.map.offsetWidth - mapPinButton.offsetWidth,
+      xMax: window.map.offsetWidth - window.mapPinButton.offsetWidth,
       yMax: 630
     };
     var pinCoordinates = {
@@ -68,17 +68,16 @@
   function onMapPinButtonMousedown(evt) {
     var pinLocations = window.getMainPinLocation();
     evt.preventDefault();
-    window.activatePage();
-    /* window.renderAds(window.generateAds(ADS_COUNT)); */
-    window.load(window.successHandler, window.errorHandler);
 
     var startCoords = {
       x: pinLocations.mainPinX,
-      y: pinLocations.mainPinY
+      y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2
     };
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      window.activatePage();
+      window.load(window.successHandler, window.errorHandler);
 
       var shift = {
         x: moveEvt.clientX - window.map.offsetLeft,
@@ -86,14 +85,14 @@
       };
 
       startCoords = {
-        x: shift.x - mapPinButton.offsetWidth / 2,
-        y: shift.y - mapPinButton.offsetHeight
+        x: shift.x - window.mapPinButton.offsetWidth / 2,
+        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2
       };
 
       var checkedPinCoordinates = checkPinCoordinatesLimit(startCoords.x, startCoords.y);
 
-      mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
-      mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
+      window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
+      window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
@@ -106,11 +105,11 @@
     };
 
 
-    mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
+    window.mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
 
   window.deactivatePage();
-  mapPinButton.addEventListener('mousedown', onMapPinButtonMousedown);
+  window.mapPinButton.addEventListener('mousedown', onMapPinButtonMousedown);
 })();

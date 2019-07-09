@@ -40,17 +40,15 @@
   }
 
   /**
-   * Функция обавляет сообщение об ошибке в html
-   * @return {Node}
+   * Функция добавляет сообщение об ошибке {Node} в html
    */
-  window.errorPopup = function () {
+  window.addErrorPopup = function () {
     var main = document.querySelector('main');
     var errorTemplate = document.querySelector('#error')
       .content
       .querySelector('.error');
     var errorMessage = errorTemplate.cloneNode(true);
     main.appendChild(errorMessage);
-    return errorMessage;
   };
 
   /**
@@ -79,6 +77,6 @@
   };
 
   window.errorHandler = function () {
-    window.errorPopup();
+    window.addErrorPopup();
   };
 })();

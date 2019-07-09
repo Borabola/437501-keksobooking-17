@@ -20,7 +20,7 @@
     if (isInitial) {
       var addressLine = pinLocations.mainPinX + ', ' + pinLocations.mainPinYInitial;
     } else {
-      addressLine = pinLocations.mainPinX + ', ' + pinLocations.mainPinY;
+      addressLine = pinLocations.mainPinX + ', ' + Math.floor(pinLocations.mainPinY - window.mapPinButton.offsetWidth);
     }
     adFormAddress.value = addressLine;
   };

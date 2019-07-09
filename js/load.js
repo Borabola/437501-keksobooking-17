@@ -10,11 +10,12 @@
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        window.errorPopup();
+        window.addErrorPopup();
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
 
       }
     });
+
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
@@ -22,7 +23,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 5000; // 5s
+    xhr.timeout = 10000; // 5s
 
     xhr.open('GET', URL);
     xhr.send();
