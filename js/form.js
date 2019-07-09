@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * Модуль работы с формой
+ */
 (function () {
   var mapFilter = document.querySelector('.map__filters-container');
   var mapFilterFieldsetList = mapFilter.querySelectorAll('fieldset');

@@ -1,8 +1,16 @@
 'use strict';
+/**
+ * Модуль работы карты
+ */
 (function () {
   var isCall = false;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  var main = document.querySelector('main');
+  var errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  var errorMessage = errorTemplate.cloneNode(true);
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -39,16 +47,22 @@
     return adElement;
   }
 
+  window.removeErrorPopup = function () {
+    main.removeChild(errorMessage);
+  };
+
   /**
-   * Функция добавляет сообщение об ошибке {Node} в html
+   * @param {Event} evt
    */
+  function onPopupEscPress(evt) {
+    window.util.isEscEvent(evt, window.removeErrorPopup);
+    document.removeEventListener('keydown', onPopupEscPress);
+  }
+
   window.addErrorPopup = function () {
-    var main = document.querySelector('main');
-    var errorTemplate = document.querySelector('#error')
-      .content
-      .querySelector('.error');
-    var errorMessage = errorTemplate.cloneNode(true);
     main.appendChild(errorMessage);
+    document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', window.removeErrorPopup);
   };
 
   /**

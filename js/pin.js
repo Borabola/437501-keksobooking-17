@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * Модуль, описывающий поведение главного пина и события на нем
+ */
 (function () {
   window.map = document.querySelector('.map');
   window.mapPinButton = window.map.querySelector('.map__pin--main');
@@ -65,6 +68,9 @@
     window.fillAddress(false);
   }
 
+  /**
+   * @param {Event} evt
+   */
   function onMapPinButtonMousedown(evt) {
     var pinLocations = window.getMainPinLocation();
     evt.preventDefault();
@@ -74,6 +80,10 @@
       y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2
     };
 
+    /**
+     * Функция отслеживает перемещения курсора и передает их в стили пина
+     * @param {Event} moveEvt
+     */
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
@@ -95,6 +105,10 @@
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
     };
 
+    /**
+     * Функция заполняет поля адреса и удаляет обработчики
+     * @param {Event} upEvt
+     */
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       window.fillAddress(false);
