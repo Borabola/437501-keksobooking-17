@@ -6,6 +6,7 @@
   window.map = document.querySelector('.map');
   window.mapPinButton = window.map.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
+  var isCallLoad = false;
 
   /**
    * Функция определения начальных координат метки
@@ -87,7 +88,10 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
-      window.load(window.successHandler, window.errorHandler);
+      if (!isCallLoad) {
+        window.load(window.successHandler, window.errorHandler);
+        isCallLoad = true;
+      }
 
       var shift = {
         x: moveEvt.clientX - window.map.offsetLeft,
