@@ -103,6 +103,7 @@
         fragment.appendChild(renderAd(ad));
       }
       divPin.appendChild(fragment);
+      window.renderCard(window.ads[0]);
       isCallRenderAd = true;
     }
   };
