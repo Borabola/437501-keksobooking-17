@@ -12,18 +12,30 @@
     'house': 'Дом'
   };
 
-
+  /**
+   * Функция выбирает нужное склонение слов в зависимости от числа
+   * @param {number} number
+   * @param {string} titles
+   * @return {string}
+   */
   function declOfNum(number, titles) {
     var cases = [2, 0, 1, 1, 1, 2];
     return titles [(number % 100 > 4 && number % 100 < 20) ? 2 : cases [(number % 10 < 5) ? number % 10 : 5]];
   }
 
+  /**
+   * @param {HTMLElement} elem
+   */
   function removeChildren(elem) {
     while (elem.firstChild) {
       elem.removeChild(elem.firstChild);
     }
   }
 
+  /**
+   * Функция отрисовки карточки объявления
+   * @param {{}} ad
+   */
   window.renderCard = function (ad) {
     var cardTemplate = document.querySelector('#card')
       .content
