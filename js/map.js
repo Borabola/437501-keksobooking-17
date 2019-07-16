@@ -137,4 +137,12 @@
       divPin.appendChild(fragment);
     }
   };
+
+  /*divPin.onclick = function onPinclick(event) {
+    console.log('старт');
+    if (event.target.className = !'map__pin--main') {
+      event.target.className = 'map__pin active-pin';
+
+    }
+  };*/
 })();

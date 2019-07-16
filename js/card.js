@@ -4,13 +4,10 @@
  */
 
 (function () {
-  // var mapCard = document.querySelector('.map__card');
-  var types = {
-    'bungalo': 'Бунгало',
-    'flat': 'Квартира',
-    'palace': 'Дворец',
-    'house': 'Дом'
-  };
+  var cardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card, .popup');
+  var adCard = cardTemplate.cloneNode(true);
 
   /**
    * Функция выбирает нужное склонение слов в зависимости от числа
@@ -33,36 +30,12 @@
   }
 
   /**
-   * Функция отрисовки карточки объявления
+   * Функция отрисовки фото в карточку
    * @param {{}} ad
    */
-  window.renderCard = function (ad) {
-    var cardTemplate = document.querySelector('#card')
-      .content
-      .querySelector('.map__card, .popup');
-    var adCard = cardTemplate.cloneNode(true);
-    var filtersContainer = document.querySelector('.map__filters-container');
-    var cardFeatures = adCard.querySelector('.popup__features');
+  function renderCardPhoto(ad) {
     var cardPhotoBlock = adCard.querySelector('.popup__photos');
     var cardPhoto = adCard.querySelector('.popup__photo');
-    var avatar = adCard.querySelector('.popup__avatar');
-
-    adCard.querySelector('.popup__title').textContent = ad.offer.title;
-    adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
-    adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    adCard.querySelector('.popup__type').textContent = types[ad.offer.type];
-    adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' ' + declOfNum(ad.offer.rooms, ['комната', 'комнаты', 'комнат']) + ' для ' + ad.offer.guests + ' ' + declOfNum(ad.offer.guests, ['гостя', 'гостей', 'гостей']);
-    adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
-
-    removeChildren(cardFeatures);
-    var features = ad.offer.features;
-    features.forEach(function (feature) {
-      var li = document.createElement('li');
-      li.className = 'popup__feature popup__feature--' + feature;
-      cardFeatures.appendChild(li);
-    });
-
-    adCard.querySelector('.popup__description').textContent = ad.offer.description;
     removeChildren(cardPhotoBlock);
     var cardPhotoLinks = ad.offer.photos;
     var images = document.createDocumentFragment();
@@ -70,12 +43,58 @@
       var image = cardPhoto.cloneNode(true);
       image.src = cardPhotoLinks[i];
       images.appendChild(image);
+      cardPhotoBlock.appendChild(images);
     }
-    cardPhotoBlock.appendChild(images);
+  }
+
+  /**
+   * Функция отрисовки эмблем-характеристик жилья
+   * @param {{}} ad
+   */
+  function renderFeaturesImg(ad) {
+    var cardFeatures = adCard.querySelector('.popup__features');
+    removeChildren(cardFeatures);
+    var features = ad.offer.features;
+    features.forEach(function (feature) {
+      var li = document.createElement('li');
+      li.className = 'popup__feature popup__feature--' + feature;
+      cardFeatures.appendChild(li);
+    });
+  }
+
+  /**
+   * Функция заполнения текстовых полей карточки объявления
+   * @param {{}} ad
+   */
+  function fillTextInCard(ad) {
+    var types = {
+      'bungalo': 'Бунгало',
+      'flat': 'Квартира',
+      'palace': 'Дворец',
+      'house': 'Дом'
+    };
+    var avatar = adCard.querySelector('.popup__avatar');
+    adCard.querySelector('.popup__title').textContent = ad.offer.title;
+    adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
+    adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
+    adCard.querySelector('.popup__type').textContent = types[ad.offer.type];
+    adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' ' + declOfNum(ad.offer.rooms, ['комната', 'комнаты', 'комнат']) + ' для ' + ad.offer.guests + ' ' + declOfNum(ad.offer.guests, ['гостя', 'гостей', 'гостей']);
+    adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
+    adCard.querySelector('.popup__description').textContent = ad.offer.description;
     avatar.src = ad.author.avatar;
+  }
 
-    window.map.insertBefore(adCard, filtersContainer);
+  /**
+   * Функция отрисовки карточки объявления
+   * @param {{}} ad
+   */
+  window.renderCard = function (ad) {
+    var card = document.createDocumentFragment();
+    var filtersContainer = document.querySelector('.map__filters-container');
+    fillTextInCard(ad);
+    renderCardPhoto(ad);
+    renderFeaturesImg(ad);
+    card.appendChild(adCard);
+    window.map.insertBefore(card, filtersContainer);
   };
-
-
 })();
