@@ -66,7 +66,7 @@
   };
 
   /**
-   * @param {Event} evt
+   * @param {KeyboardEvent} evt
   */
   var onPopupEscPress = function (evt) {
     var ESC_KEYCODE = 27;
@@ -103,6 +103,7 @@
         fragment.appendChild(renderAd(ad));
       }
       divPin.appendChild(fragment);
+      window.renderCard(window.ads[0]);
       isCallRenderAd = true;
     }
   };

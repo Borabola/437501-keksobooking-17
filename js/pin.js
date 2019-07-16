@@ -93,6 +93,7 @@
         isCallLoad = true;
       }
 
+
       var shift = {
         x: moveEvt.clientX - window.map.offsetLeft,
         y: moveEvt.clientY - window.map.offsetTop
