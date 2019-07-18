@@ -5,7 +5,7 @@
   var DEBOUNCE_INTERVAL = 300; // ms
 
   /**
-   * @param{Requester~requestCallback} cb
+   * @param{function} cb
    * @return {Function}
    */
   window.debounce = function (cb) {

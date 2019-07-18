@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @typedef {{offer:
+ *  @typedef {{offer:
  *   {type: string},
  * author:
  *   {avatar: string},
@@ -8,8 +8,19 @@
  *   x: number,
  *   y: number}
  * }
+ * } data
+ * @typedef {{offer:
+ *   {type: string},
+ * author:
+ *   {avatar: string},
+ * location: {
+ *   x: number,
+ *   y: number},
+ * index: number
+ * }
  * } ad
- */
+ * /
+
 /**
  * Модуль работы карты
  */
@@ -35,17 +46,10 @@
     return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
   };
 
+
   /**
    * функция берет объект объявления и создает разметку объявления
-   * @param {
-   * {offer:
-   *   {type: string},
-   * author:
-   *   {avatar: string},
-   * location: {
-   *   x: number,
-   *   y: number}
-   * }} ad - объект обявления
+   * @param {ad} ad - объект обявления
    * @return {Node} Element DOM элемент, представляющий героя
    */
   function renderAd(ad) {
@@ -56,7 +60,9 @@
     var adElement = pinTemplate.cloneNode(true);
     adElement.setAttribute('style', pinLocation);
     adElement.children[0].setAttribute('src', ad.author.avatar);
+    adElement.children[0].classList.add(ad.index);
     adElement.setAttribute('alt', ad.offer.type);
+
     return adElement;
   }
 
@@ -82,29 +88,48 @@
   };
 
   /**
+   * Функция принимает массив объектов data, добавляет в него строку index: номер по порядку
+   * @param {*} object
+   * @param  {[data]} data
+   * @return {*}
+   */
+  function addAdIndex(object, data) {
+    object = data;
+    for (var i = 0; i < data.length; i++) {
+      var ad = data[i];
+      ad['index'] = i;
+    }
+    return object;
+  }
+
+  /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
-   * @param {
-   * {author:
-   *   {avatar: string},
-   *  offer:
-   *   {type: string},
-   *  location: {
-   *   x: number,
-   *   y: number}
-   * }[]} data
+   * @param {[data]} data
    */
   window.successHandler = function (data) {
     var fragment = document.createDocumentFragment();
     window.ads = data;
+    addAdIndex(window.ads, data);
+
     if (!isCallRenderAd) {
       var pinsNumber = data.length > 5 ? 5 : data.length;
       for (var i = 0; i < pinsNumber; i++) {
         var ad = data[i];
         fragment.appendChild(renderAd(ad));
       }
+
       divPin.appendChild(fragment);
       window.renderCard(window.ads[0]);
       isCallRenderAd = true;
+
+      divPin.onclick = function (event) {
+        var target = event.target;
+        if (event.target.src.indexOf('muffin-red.svg') > -1) {
+          return;
+        } else {
+          window.renderCard(window.ads[target.className]);
+        }
+      };
     }
   };
 
@@ -137,12 +162,4 @@
       divPin.appendChild(fragment);
     }
   };
-
-  /*divPin.onclick = function onPinclick(event) {
-    console.log('старт');
-    if (event.target.className = !'map__pin--main') {
-      event.target.className = 'map__pin active-pin';
-
-    }
-  };*/
 })();

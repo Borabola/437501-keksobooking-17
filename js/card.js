@@ -8,6 +8,7 @@
     .content
     .querySelector('.map__card, .popup');
   var adCard = cardTemplate.cloneNode(true);
+  var card = document.createDocumentFragment();
 
   /**
    * Функция выбирает нужное склонение слов в зависимости от числа
@@ -19,6 +20,13 @@
     var cases = [2, 0, 1, 1, 1, 2];
     return titles [(number % 100 > 4 && number % 100 < 20) ? 2 : cases [(number % 10 < 5) ? number % 10 : 5]];
   }
+
+  window.closeCard = function () {
+    var cardPopup = document.querySelector('.map__card, .popup');
+    cardPopup.remove();
+    document.removeEventListener('keydown', window.onCardEscPress);
+    window.cardClose.removeEventListener('click', window.closeCard);
+  };
 
   /**
    * @param {HTMLElement} elem
@@ -55,11 +63,13 @@
     var cardFeatures = adCard.querySelector('.popup__features');
     removeChildren(cardFeatures);
     var features = ad.offer.features;
-    features.forEach(function (feature) {
-      var li = document.createElement('li');
-      li.className = 'popup__feature popup__feature--' + feature;
-      cardFeatures.appendChild(li);
-    });
+    if (features.length > 0) {
+      features.forEach(function (feature) {
+        var li = document.createElement('li');
+        li.className = 'popup__feature popup__feature--' + feature;
+        cardFeatures.appendChild(li);
+      });
+    }
   }
 
   /**
@@ -89,12 +99,26 @@
    * @param {{}} ad
    */
   window.renderCard = function (ad) {
-    var card = document.createDocumentFragment();
     var filtersContainer = document.querySelector('.map__filters-container');
     fillTextInCard(ad);
     renderCardPhoto(ad);
     renderFeaturesImg(ad);
     card.appendChild(adCard);
+    var cardPopup = card.children[0];
     window.map.insertBefore(card, filtersContainer);
+    window.cardClose = cardPopup.querySelector('.popup__close');
+    document.addEventListener('keydown', window.onCardEscPress);
+    window.cardClose.addEventListener('click', window.closeCard);
+  };
+
+
+  /**
+   * @param {KeyboardEvent} evt
+   */
+  window.onCardEscPress = function (evt) {
+    var ESC_KEYCODE = 27;
+    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
+      window.closeCard();
+    }
   };
 })();
