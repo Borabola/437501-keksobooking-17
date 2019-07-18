@@ -47,9 +47,18 @@
     removeChildren(cardPhotoBlock);
     var cardPhotoLinks = ad.offer.photos;
     var images = document.createDocumentFragment();
-    for (var i = 0; i < cardPhotoLinks.length; i++) {
-      var image = cardPhoto.cloneNode(true);
-      image.src = cardPhotoLinks[i];
+    if (cardPhotoLinks.length > 0) {
+      for (var i = 0; i < cardPhotoLinks.length; i++) {
+        var image = cardPhoto.cloneNode(true);
+        image.src = cardPhotoLinks[i];
+        image.removeAttribute('style');
+        images.appendChild(image);
+        cardPhotoBlock.appendChild(images);
+      }
+    } else {
+      image = cardPhoto.cloneNode(true);
+      image.src = '#';
+      image.style.display = 'none';
       images.appendChild(image);
       cardPhotoBlock.appendChild(images);
     }
