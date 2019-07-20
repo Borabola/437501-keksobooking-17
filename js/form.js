@@ -48,7 +48,6 @@
     }
   }
 
-  /* Функция переводит страницу в активное состояние */
   window.activatePage = function () {
     activateElements(adFormFieldsetList);
     activateElements(mapFilterFieldsetList);
@@ -56,7 +55,6 @@
     window.cityMap.classList.remove('map--faded');
   };
 
-  /* Функция переводит страницу в неактивное состояние*/
   window.deactivatePage = function () {
     deactivateElements(adFormFieldsetList);
     deactivateElements(mapFilterFieldsetList);

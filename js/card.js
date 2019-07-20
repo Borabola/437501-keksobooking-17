@@ -67,7 +67,6 @@
   }
 
   /**
-   *
    * @param {Ad} ad
    * @return {boolean}
    */
@@ -75,6 +74,9 @@
     return ad.offer.photos.length > 0;
   }
 
+  /**
+   * @param {Ad} ad
+   */
   function renderPhotosAd(ad) {
     for (var i = 0; i < ad.offer.photos.length; i++) {
       image = cardPhoto.cloneNode(true);

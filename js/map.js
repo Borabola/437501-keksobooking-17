@@ -142,21 +142,17 @@
       divPin.onclick = function (evt) {
         var target = evt.target;
         // if (evt.target.src.indexOf('muffin-red.svg') > -1) {
-        if (evt.target.parentElement.className === 'map__pin map__pin--main') {
+        if (evt.target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay') {
           return;
         } else {
-          if (target.className === 'map__pin') {
-            return; // клик по ободку пина
-          } else {
-            window.renderCard(window.ads[target.className]);
-          }
+          window.renderCard(window.ads[target.className]);
         }
       };
     }
   };
 
 
-  window.errorHandler = function () {
+  window.onLoadError = function () {
     window.addErrorPopup();
   };
 
@@ -172,7 +168,7 @@
 
   /**
    * Функция отрисовки отфильтрованных пинов
-   * @param {ad[]} filteredData
+   * @param {Ad[]} filteredData
    */
   window.rerenderAds = function (filteredData) {
     window.clearPins();
