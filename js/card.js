@@ -156,7 +156,7 @@
     renderFeaturesImg(ad);
     card.appendChild(adCard);
     var cardPopup = card.children[0];
-    window.map.insertBefore(card, filtersContainer);
+    window.cityMap.insertBefore(card, filtersContainer);
     window.cardClose = cardPopup.querySelector('.popup__close');
     document.addEventListener('keydown', window.onCardEscPress);
     window.cardClose.addEventListener('click', window.closeCard);

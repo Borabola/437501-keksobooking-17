@@ -145,6 +145,8 @@
         if (evt.target.parentElement.className === 'map__pin--main') {
           return;
         } else {
+          console.log(target.className);
+          console.log(window.ads[target.className]);
           window.renderCard(window.ads[target.className]);
         }
       };

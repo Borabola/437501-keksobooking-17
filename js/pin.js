@@ -3,8 +3,8 @@
  * Модуль, описывающий поведение главного пина и события на нем
  */
 (function () {
-  window.map = document.querySelector('.map');
-  window.mapPinButton = window.map.querySelector('.map__pin--main');
+  window.cityMap = document.querySelector('.map');
+  window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
   var isCallLoad = false;
 
@@ -39,7 +39,7 @@
     var PIN_MAP_LIMITS = {
       xMin: 0,
       yMin: 130,
-      xMax: window.map.offsetWidth - window.mapPinButton.offsetWidth,
+      xMax: window.cityMap.offsetWidth - window.mapPinButton.offsetWidth,
       yMax: 630
     };
     var pinCoordinates = {
@@ -95,8 +95,8 @@
 
 
       var shift = {
-        x: moveEvt.clientX - window.map.offsetLeft,
-        y: moveEvt.clientY - window.map.offsetTop
+        x: moveEvt.clientX - window.cityMap.offsetLeft,
+        y: moveEvt.clientY - window.cityMap.offsetTop
       };
 
       startCoords = {

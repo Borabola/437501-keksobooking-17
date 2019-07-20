@@ -53,7 +53,7 @@
     activateElements(adFormFieldsetList);
     activateElements(mapFilterFieldsetList);
     adForm.classList.remove('ad-form--disabled');
-    window.map.classList.remove('map--faded');
+    window.cityMap.classList.remove('map--faded');
   };
 
   /* Функция переводит страницу в неактивное состояние*/
