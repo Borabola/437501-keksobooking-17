@@ -37,6 +37,7 @@
   var images = document.createDocumentFragment();
   var cardPhotoBlock = adCard.querySelector('.popup__photos');
   var cardPhoto = adCard.querySelector('.popup__photo');
+  var ESC_KEYCODE = 27;
 
   /**
    * Функция выбирает нужное склонение слов в зависимости от числа
@@ -167,7 +168,6 @@
    * @param {KeyboardEvent} evt
    */
   window.onCardEscPress = function (evt) {
-    var ESC_KEYCODE = 27;
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
       window.closeCard();
     }

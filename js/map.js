@@ -142,12 +142,14 @@
       divPin.onclick = function (evt) {
         var target = evt.target;
         // if (evt.target.src.indexOf('muffin-red.svg') > -1) {
-        if (evt.target.parentElement.className === 'map__pin--main') {
+        if (evt.target.parentElement.className === 'map__pin map__pin--main') {
           return;
         } else {
-          console.log(target.className);
-          console.log(window.ads[target.className]);
-          window.renderCard(window.ads[target.className]);
+          if (target.className === 'map__pin') {
+            return; // клик по ободку пина
+          } else {
+            window.renderCard(window.ads[target.className]);
+          }
         }
       };
     }
