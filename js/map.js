@@ -40,7 +40,7 @@
  * location: {
  *   x: number,
  *   y: number},
- * index: number
+ * id: number
  * }
  * } Ad
  * /
@@ -72,7 +72,7 @@
 
   /**
    * функция берет объект объявления и создает разметку объявления
-   * @param {ad} ad - объект обявления
+   * @param {Ad} ad - объект обявления
    * @return {Node} Element DOM элемент, представляющий пин объявление
    */
   function renderAd(ad) {
@@ -83,7 +83,7 @@
     var adElement = pinTemplate.cloneNode(true);
     adElement.setAttribute('style', pinLocation);
     adElement.children[0].setAttribute('src', ad.author.avatar);
-    adElement.children[0].classList.add(ad.index);
+    adElement.children[0].classList.add(ad.id);
     adElement.setAttribute('alt', ad.offer.type);
 
     return adElement;
@@ -117,7 +117,7 @@
    */
   function mapServerAdsToAds(serverAds) {
     return serverAds.map(function (ad, index) {
-      return Object.assign({index: index}, ad);
+      return Object.assign({id: index}, ad);
     });
   }
 
