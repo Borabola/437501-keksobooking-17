@@ -89,7 +89,7 @@
       moveEvt.preventDefault();
       window.activatePage();
       if (!isCallLoad) {
-        window.load(window.successHandler, window.errorHandler);
+        window.load(window.onLoadSuccess, window.errorHandler);
         isCallLoad = true;
       }
 

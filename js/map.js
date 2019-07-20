@@ -1,27 +1,51 @@
 'use strict';
 /**
- *  @typedef {{offer:
- *   {type: string},
+ @typedef {{
+  * author:
+  *   {avatar: string},
+  * offer: {
+  *    title: string,
+  *    address: string,
+  *    price: number,
+  *    type: string,
+  *    rooms: number,
+  *    guests: number,
+  *    checkin: string,
+  *    checkout: string,
+  *    features: [],
+  *    description: string,
+  *    photos: []
+  *   }
+  * location: {
+  *   x: number,
+  *   y: number}
+  * }
+  * } Data
+ * @typedef {{
  * author:
  *   {avatar: string},
- * location: {
- *   x: number,
- *   y: number}
- * }
- * } data
- * @typedef {{offer:
- *   {type: string},
- * author:
- *   {avatar: string},
+ * offer: {
+ *    title: string,
+ *    address: string,
+ *    price: number,
+ *    type: string,
+ *    rooms: number,
+ *    guests: number,
+ *    checkin: string,
+ *    checkout: string,
+ *    features: [],
+ *    description: string,
+ *    photos: []
+ *   }
  * location: {
  *   x: number,
  *   y: number},
  * index: number
  * }
- * } ad
+ * } Ad
  * /
 
-/**
+ /**
  * Модуль работы карты
  */
 (function () {
@@ -34,7 +58,6 @@
     .querySelector('.error');
   var divPin = document.querySelector('.map__pins');
   var errorMessage = errorTemplate.cloneNode(true);
-  window.ads = [];
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -50,7 +73,7 @@
   /**
    * функция берет объект объявления и создает разметку объявления
    * @param {ad} ad - объект обявления
-   * @return {Node} Element DOM элемент, представляющий героя
+   * @return {Node} Element DOM элемент, представляющий пин объявление
    */
   function renderAd(ad) {
     var pinTemplate = document.querySelector('#pin')
@@ -73,7 +96,7 @@
 
   /**
    * @param {KeyboardEvent} evt
-  */
+   */
   var onPopupEscPress = function (evt) {
     var ESC_KEYCODE = 27;
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
@@ -89,32 +112,26 @@
 
   /**
    * Функция принимает массив объектов data, добавляет в него строку index: номер по порядку
-   * @param {*} object
-   * @param  {[data]} data
+   * @param  {Data[]} serverAds
    * @return {*}
    */
-  function addAdIndex(object, data) {
-    object = data;
-    for (var i = 0; i < data.length; i++) {
-      var ad = data[i];
-      ad['index'] = i;
-    }
-    return object;
+  function mapServerAdsToAds(serverAds) {
+    return serverAds.map(function (ad, index) {
+      return Object.assign({index: index}, ad);
+    });
   }
 
   /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
-   * @param {[data]} data
+   * @param {Data[]} serverAds
    */
-  window.successHandler = function (data) {
+  window.onLoadSuccess = function (serverAds) {
     var fragment = document.createDocumentFragment();
-    window.ads = data;
-    addAdIndex(window.ads, data);
-
+    window.ads = mapServerAdsToAds(serverAds);
     if (!isCallRenderAd) {
-      var pinsNumber = data.length > 5 ? 5 : data.length;
+      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
       for (var i = 0; i < pinsNumber; i++) {
-        var ad = data[i];
+        var ad = window.ads[i];
         fragment.appendChild(renderAd(ad));
       }
 
@@ -122,9 +139,10 @@
       window.renderCard(window.ads[0]);
       isCallRenderAd = true;
 
-      divPin.onclick = function (event) {
-        var target = event.target;
-        if (event.target.src.indexOf('muffin-red.svg') > -1) {
+      divPin.onclick = function (evt) {
+        var target = evt.target;
+        // if (evt.target.src.indexOf('muffin-red.svg') > -1) {
+        if (evt.target.parentElement.className === 'map__pin--main') {
           return;
         } else {
           window.renderCard(window.ads[target.className]);

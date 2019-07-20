@@ -82,6 +82,7 @@
   function onTimeOutInputChange() {
     checkInTime.value = checkOutTime.value;
   }
+
   typeOfHousing.addEventListener('change', onTypeInputChange);
   checkInTime.addEventListener('change', onTimeInputChange);
   checkOutTime.addEventListener('change', onTimeOutInputChange);
