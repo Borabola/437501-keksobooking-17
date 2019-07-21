@@ -20,7 +20,7 @@
   *   x: number,
   *   y: number}
   * }
-  * } Data
+  * } AdData
  * @typedef {{
  * author:
  *   {avatar: string},
@@ -111,8 +111,8 @@
   };
 
   /**
-   * Функция принимает массив объектов data, добавляет в него строку index: номер по порядку
-   * @param  {Data[]} serverAds
+   * Функция принимает массив объектов AdData, добавляет в него строку index: номер по порядку
+   * @param  {AdData[]} serverAds
    * @return {*}
    */
   function mapServerAdsToAds(serverAds) {
@@ -123,7 +123,7 @@
 
   /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
-   * @param {Data[]} serverAds
+   * @param {AdData[]} serverAds
    */
   window.onLoadSuccess = function (serverAds) {
     var fragment = document.createDocumentFragment();
@@ -141,10 +141,14 @@
 
       divPin.onclick = function (evt) {
         var target = evt.target;
-        // if (evt.target.src.indexOf('muffin-red.svg') > -1) {
         if (evt.target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay') {
           return;
         } else {
+          var oldActivePin = divPin.querySelector('.map__pin--active');
+          if (oldActivePin) {
+            divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+          }
+          evt.target.parentElement.classList.add('map__pin--active');
           window.renderCard(window.ads[target.className]);
         }
       };
