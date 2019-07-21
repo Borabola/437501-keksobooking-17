@@ -140,7 +140,7 @@
 
       divPin.onclick = function (evt) {
         var target = evt.target;
-        if (evt.target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay') {
+        if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay') {
           return;
         } else {
           var oldActivePin = divPin.querySelector('.map__pin--active');
