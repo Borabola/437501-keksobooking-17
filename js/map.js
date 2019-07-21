@@ -136,7 +136,6 @@
       }
 
       divPin.appendChild(fragment);
-      window.renderCard(window.ads[0]);
       isCallRenderAd = true;
 
       divPin.onclick = function (evt) {
