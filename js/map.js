@@ -1,16 +1,51 @@
 'use strict';
 /**
- * @typedef {{offer:
- *   {type: string},
+ @typedef {{
+  * author:
+  *   {avatar: string},
+  * offer: {
+  *    title: string,
+  *    address: string,
+  *    price: number,
+  *    type: string,
+  *    rooms: number,
+  *    guests: number,
+  *    checkin: string,
+  *    checkout: string,
+  *    features: [],
+  *    description: string,
+  *    photos: []
+  *   }
+  * location: {
+  *   x: number,
+  *   y: number}
+  * }
+  * } AdData
+ * @typedef {{
  * author:
  *   {avatar: string},
+ * offer: {
+ *    title: string,
+ *    address: string,
+ *    price: number,
+ *    type: string,
+ *    rooms: number,
+ *    guests: number,
+ *    checkin: string,
+ *    checkout: string,
+ *    features: [],
+ *    description: string,
+ *    photos: []
+ *   }
  * location: {
  *   x: number,
- *   y: number}
+ *   y: number},
+ * id: number
  * }
- * } ad
- */
-/**
+ * } Ad
+ * /
+
+ /**
  * Модуль работы карты
  */
 (function () {
@@ -23,7 +58,6 @@
     .querySelector('.error');
   var divPin = document.querySelector('.map__pins');
   var errorMessage = errorTemplate.cloneNode(true);
-  window.ads = [];
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -35,18 +69,11 @@
     return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
   };
 
+
   /**
    * функция берет объект объявления и создает разметку объявления
-   * @param {
-   * {offer:
-   *   {type: string},
-   * author:
-   *   {avatar: string},
-   * location: {
-   *   x: number,
-   *   y: number}
-   * }} ad - объект обявления
-   * @return {Node} Element DOM элемент, представляющий героя
+   * @param {Ad} ad - объект обявления
+   * @return {Node} Element DOM элемент, представляющий пин объявление
    */
   function renderAd(ad) {
     var pinTemplate = document.querySelector('#pin')
@@ -56,7 +83,9 @@
     var adElement = pinTemplate.cloneNode(true);
     adElement.setAttribute('style', pinLocation);
     adElement.children[0].setAttribute('src', ad.author.avatar);
+    adElement.children[0].classList.add(ad.id);
     adElement.setAttribute('alt', ad.offer.type);
+
     return adElement;
   }
 
@@ -67,7 +96,7 @@
 
   /**
    * @param {KeyboardEvent} evt
-  */
+   */
   var onPopupEscPress = function (evt) {
     var ESC_KEYCODE = 27;
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
@@ -82,34 +111,51 @@
   };
 
   /**
-   * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
-   * @param {
-   * {author:
-   *   {avatar: string},
-   *  offer:
-   *   {type: string},
-   *  location: {
-   *   x: number,
-   *   y: number}
-   * }[]} data
+   * Функция принимает массив объектов AdData, добавляет в него строку index: номер по порядку
+   * @param  {AdData[]} serverAds
+   * @return {*}
    */
-  window.successHandler = function (data) {
+  function mapServerAdsToAds(serverAds) {
+    return serverAds.map(function (ad, index) {
+      return Object.assign({id: index}, ad);
+    });
+  }
+
+  /**
+   * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
+   * @param {AdData[]} serverAds
+   */
+  window.onLoadSuccess = function (serverAds) {
     var fragment = document.createDocumentFragment();
-    window.ads = data;
+    window.ads = mapServerAdsToAds(serverAds);
     if (!isCallRenderAd) {
-      var pinsNumber = data.length > 5 ? 5 : data.length;
+      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
       for (var i = 0; i < pinsNumber; i++) {
-        var ad = data[i];
+        var ad = window.ads[i];
         fragment.appendChild(renderAd(ad));
       }
+
       divPin.appendChild(fragment);
-      window.renderCard(window.ads[0]);
       isCallRenderAd = true;
+
+      divPin.onclick = function (evt) {
+        var target = evt.target;
+        if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay') {
+          return;
+        } else {
+          var oldActivePin = divPin.querySelector('.map__pin--active');
+          if (oldActivePin) {
+            divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+          }
+          evt.target.parentElement.classList.add('map__pin--active');
+          window.renderCard(window.ads[target.className]);
+        }
+      };
     }
   };
 
 
-  window.errorHandler = function () {
+  window.onLoadError = function () {
     window.addErrorPopup();
   };
 
@@ -125,7 +171,7 @@
 
   /**
    * Функция отрисовки отфильтрованных пинов
-   * @param {ad[]} filteredData
+   * @param {Ad[]} filteredData
    */
   window.rerenderAds = function (filteredData) {
     window.clearPins();

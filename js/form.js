@@ -48,15 +48,13 @@
     }
   }
 
-  /* Функция переводит страницу в активное состояние */
   window.activatePage = function () {
     activateElements(adFormFieldsetList);
     activateElements(mapFilterFieldsetList);
     adForm.classList.remove('ad-form--disabled');
-    window.map.classList.remove('map--faded');
+    window.cityMap.classList.remove('map--faded');
   };
 
-  /* Функция переводит страницу в неактивное состояние*/
   window.deactivatePage = function () {
     deactivateElements(adFormFieldsetList);
     deactivateElements(mapFilterFieldsetList);
@@ -72,7 +70,6 @@
     };
     var inputPrice = adForm.querySelector('#price');
     inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
-
   }
 
   function onTimeInputChange() {
@@ -82,6 +79,7 @@
   function onTimeOutInputChange() {
     checkInTime.value = checkOutTime.value;
   }
+
   typeOfHousing.addEventListener('change', onTypeInputChange);
   checkInTime.addEventListener('change', onTimeInputChange);
   checkOutTime.addEventListener('change', onTimeOutInputChange);
