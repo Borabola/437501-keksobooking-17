@@ -16,6 +16,7 @@
       return window.filteredAds.indexOf(it) === i;
     });
     window.rerenderAds(window.uniqueAds);
+    window.closeCard();
   });
 
   window.housingTypeFilter.addEventListener('change', window.onTypeChange);

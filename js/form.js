@@ -70,7 +70,6 @@
     };
     var inputPrice = adForm.querySelector('#price');
     inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
-
   }
 
   function onTimeInputChange() {
