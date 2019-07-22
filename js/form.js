@@ -12,6 +12,8 @@
 
   var checkInTime = document.querySelector('#timein');
   var checkOutTime = document.querySelector('#timeout');
+  var room = adForm.querySelector('#room_number');
+  var guest = adForm.querySelector('#capacity');
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -80,9 +82,6 @@
     checkInTime.value = checkOutTime.value;
   }
 
-  var room = adForm.querySelector('#room_number');
-  var guest = adForm.querySelector('#capacity');
-
   function checkRoomToGuest() {
     var RoomToGuestMessage;
     if (room.value !== '100') {
@@ -97,7 +96,7 @@
       }
     } else {
       if (guest.value !== '0') {
-        RoomToGuestMessage = 'Выбирите "не для гостей"';
+        RoomToGuestMessage = 'Выберите "не для гостей"';
       } else {
         RoomToGuestMessage = '';
       }
