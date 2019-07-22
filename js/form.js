@@ -80,6 +80,36 @@
     checkInTime.value = checkOutTime.value;
   }
 
+  var room = adForm.querySelector('#room_number');
+  var guest = adForm.querySelector('#capacity');
+
+  function checkRoomToGuest() {
+    var RoomToGuestMessage;
+    if (room.value !== '100') {
+      if (guest.value > room.value) {
+        RoomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
+      } else {
+        if (guest.value === '0') {
+          RoomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
+        } else {
+          RoomToGuestMessage = '';
+        }
+      }
+    } else {
+      if (guest.value !== '0') {
+        RoomToGuestMessage = 'Выбирите "не для гостей"';
+      } else {
+        RoomToGuestMessage = '';
+      }
+    }
+
+    guest.setCustomValidity(RoomToGuestMessage);
+  }
+  checkRoomToGuest();
+
+  room.addEventListener('change', checkRoomToGuest);
+  guest.addEventListener('change', checkRoomToGuest);
+
   typeOfHousing.addEventListener('change', onTypeInputChange);
   checkInTime.addEventListener('change', onTimeInputChange);
   checkOutTime.addEventListener('change', onTimeOutInputChange);
