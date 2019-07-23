@@ -211,6 +211,7 @@
 
   window.onSendSuccess = function () {
     window.resetForm();
+    window.clearPins();
     renderSuccessMessage();
   };
 
