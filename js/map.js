@@ -98,6 +98,10 @@
 
   };
 
+  window.removeSuccessPopup = function () {
+    main.removeChild(successMessage);
+  };
+
   /**
    * @param {KeyboardEvent} evt
    */
@@ -105,6 +109,16 @@
     var ESC_KEYCODE = 27;
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
       window.removeErrorPopup();
+    }
+  };
+
+  /**
+   * @param {KeyboardEvent} evt
+   */
+  var onSuccessPopupEscPress = function (evt) {
+    var ESC_KEYCODE = 27;
+    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
+      window.removeSuccessPopup();
     }
   };
 
@@ -190,10 +204,13 @@
 
   function renderSuccessMessage() {
     main.appendChild(successMessage);
+    document.addEventListener('keydown', onSuccessPopupEscPress);
+    document.addEventListener('click', window.removeSuccessPopup);
 
   }
 
   window.onSendSuccess = function () {
+
     renderSuccessMessage();
   };
 })();
