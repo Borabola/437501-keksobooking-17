@@ -58,6 +58,10 @@
     .querySelector('.error');
   var divPin = document.querySelector('.map__pins');
   var errorMessage = errorTemplate.cloneNode(true);
+  var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+  var successMessage = successTemplate.cloneNode(true);
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -182,5 +186,14 @@
       fragment.appendChild(renderAd(ad));
       divPin.appendChild(fragment);
     }
+  };
+
+  function renderSuccessMessage() {
+    main.appendChild(successMessage);
+
+  }
+
+  window.onSendSuccess = function () {
+    renderSuccessMessage();
   };
 })();

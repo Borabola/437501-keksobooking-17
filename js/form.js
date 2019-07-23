@@ -112,4 +112,10 @@
   typeOfHousing.addEventListener('change', onTypeInputChange);
   checkInTime.addEventListener('change', onTimeInputChange);
   checkOutTime.addEventListener('change', onTimeOutInputChange);
+  adForm.addEventListener('submit', function (evtSubmit) {
+    evtSubmit.preventDefault();
+    var formData = new FormData(adForm);
+    window.send(formData, window.onSendSuccess, window.onSendError);
+  }
+  );
 })();
