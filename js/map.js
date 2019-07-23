@@ -214,9 +214,10 @@
   window.onSendSuccess = function () {
     window.resetForm();
     window.clearPins();
-    renderSuccessMessage();
+    window.closeCard();
     window.returnMainPin();
-
+    window.deactivatePage();
+    renderSuccessMessage();
   };
 
   window.onSendError = function () {
