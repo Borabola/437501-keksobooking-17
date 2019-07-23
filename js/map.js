@@ -124,8 +124,8 @@
 
   window.addErrorPopup = function () {
     main.appendChild(errorMessage);
-    document.addEventListener('keydown', onPopupEscPress);
     document.addEventListener('click', window.removeErrorPopup);
+    document.addEventListener('keydown', onPopupEscPress);
   };
 
   /**
@@ -210,7 +210,11 @@
   }
 
   window.onSendSuccess = function () {
-
+    window.resetForm();
     renderSuccessMessage();
+  };
+
+  window.onSendError = function () {
+    window.addErrorPopup();
   };
 })();

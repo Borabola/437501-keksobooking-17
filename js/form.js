@@ -14,6 +14,7 @@
   var checkOutTime = document.querySelector('#timeout');
   var room = adForm.querySelector('#room_number');
   var guest = adForm.querySelector('#capacity');
+  var inputPrice = adForm.querySelector('#price');
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -70,7 +71,6 @@
       house: 5000,
       palace: 10000
     };
-    var inputPrice = adForm.querySelector('#price');
     inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
   }
 
@@ -104,6 +104,24 @@
 
     guest.setCustomValidity(RoomToGuestMessage);
   }
+
+  window.resetForm = function () {
+    adForm.querySelector('#title').value = '';
+    inputPrice.value = '';
+    room.value = '1';
+    guest.value = '1';
+    typeOfHousing.value = 'flat';
+    adForm.querySelector('#description').value = '';
+
+    var featureCheckboxes = adForm.querySelectorAll('.feature__checkbox');
+    for (var i = 0; i < featureCheckboxes.length; i++) {
+      featureCheckboxes[i].checked = false;
+    }
+
+    checkInTime.value = '12:00';
+    checkOutTime.value = '12:00';
+  };
+
   checkRoomToGuest();
 
   room.addEventListener('change', checkRoomToGuest);
@@ -118,4 +136,6 @@
     window.send(formData, window.onSendSuccess, window.onSendError);
   }
   );
+
+
 })();
