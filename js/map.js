@@ -99,7 +99,9 @@
   };
 
   window.removeSuccessPopup = function () {
-    main.removeChild(successMessage);
+    if (successMessage) {
+      main.removeChild(successMessage);
+    }
   };
 
   /**
@@ -213,6 +215,8 @@
     window.resetForm();
     window.clearPins();
     renderSuccessMessage();
+    window.returnMainPin();
+
   };
 
   window.onSendError = function () {
