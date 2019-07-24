@@ -52,16 +52,9 @@
   var isCallRenderAd = false;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
-  var main = document.querySelector('main');
-  var errorTemplate = document.querySelector('#error')
-    .content
-    .querySelector('.error');
+  window.main = document.querySelector('main');
   var divPin = document.querySelector('.map__pins');
-  var errorMessage = errorTemplate.cloneNode(true);
-  var successTemplate = document.querySelector('#success')
-    .content
-    .querySelector('.success');
-  var successMessage = successTemplate.cloneNode(true);
+
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -92,43 +85,6 @@
 
     return adElement;
   }
-
-  window.removeErrorPopup = function () {
-    main.removeChild(errorMessage);
-
-  };
-
-  window.removeSuccessPopup = function () {
-    if (successMessage) {
-      main.removeChild(successMessage);
-    }
-  };
-
-  /**
-   * @param {KeyboardEvent} evt
-   */
-  var onPopupEscPress = function (evt) {
-    var ESC_KEYCODE = 27;
-    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      window.removeErrorPopup();
-    }
-  };
-
-  /**
-   * @param {KeyboardEvent} evt
-   */
-  var onSuccessPopupEscPress = function (evt) {
-    var ESC_KEYCODE = 27;
-    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      window.removeSuccessPopup();
-    }
-  };
-
-  window.addErrorPopup = function () {
-    main.appendChild(errorMessage);
-    document.addEventListener('click', window.removeErrorPopup);
-    document.addEventListener('keydown', onPopupEscPress);
-  };
 
   /**
    * Функция принимает массив объектов AdData, добавляет в него строку index: номер по порядку
@@ -204,20 +160,13 @@
     }
   };
 
-  function renderSuccessMessage() {
-    main.appendChild(successMessage);
-    document.addEventListener('keydown', onSuccessPopupEscPress);
-    document.addEventListener('click', window.removeSuccessPopup);
-
-  }
-
   window.onSendSuccess = function () {
     window.resetForm();
     window.clearPins();
     window.closeCard();
     window.returnMainPin();
     window.deactivatePage();
-    renderSuccessMessage();
+    window.renderSuccessMessage();
   };
 
   window.onSendError = function () {
