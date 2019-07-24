@@ -61,6 +61,7 @@
   window.deactivatePage = function () {
     deactivateElements(adFormFieldsetList);
     deactivateElements(mapFilterFieldsetList);
+    window.cityMap.classList.add('map--faded');
     window.fillAddress(true);
   };
 
@@ -136,6 +137,4 @@
     window.send(formData, window.onSendSuccess, window.onSendError);
   }
   );
-
-
 })();

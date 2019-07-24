@@ -49,7 +49,7 @@
  * Модуль работы карты
  */
 (function () {
-  var isCallRenderAd = false;
+  window.isCallRenderAd = false;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.main = document.querySelector('main');
@@ -98,36 +98,44 @@
   }
 
   /**
+   * Функция отрисовывает указанное количество пинов
+   * @param {Ad[]} ads
+   */
+  window.renderPins = function (ads) {
+    var fragment = document.createDocumentFragment();
+    if (window.isCallRenderAd === false) {
+      var pinsNumber = ads.length > 5 ? 5 : ads.length;
+      for (var i = 0; i < pinsNumber; i++) {
+        var ad = ads[i];
+        fragment.appendChild(renderAd(ad));
+      }
+      divPin.appendChild(fragment);
+      window.isCallRenderAd = true;
+    }
+  };
+
+  /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {AdData[]} serverAds
    */
   window.onLoadSuccess = function (serverAds) {
-    var fragment = document.createDocumentFragment();
+    window.isCallLoad = true;
     window.ads = mapServerAdsToAds(serverAds);
-    if (!isCallRenderAd) {
-      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
-      for (var i = 0; i < pinsNumber; i++) {
-        var ad = window.ads[i];
-        fragment.appendChild(renderAd(ad));
-      }
+    window.renderPins(window.ads);
 
-      divPin.appendChild(fragment);
-      isCallRenderAd = true;
-
-      divPin.onclick = function (evt) {
-        var target = evt.target;
-        if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay' || target.className === 'map__pins') {
-          return;
-        } else {
-          var oldActivePin = divPin.querySelector('.map__pin--active');
-          if (oldActivePin) {
-            divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
-          }
-          evt.target.parentElement.classList.add('map__pin--active');
-          window.renderCard(window.ads[target.className]);
+    divPin.onclick = function (evt) {
+      var target = evt.target;
+      if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay' || target.className === 'map__pins') {
+        return;
+      } else {
+        var oldActivePin = divPin.querySelector('.map__pin--active');
+        if (oldActivePin) {
+          divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
         }
-      };
-    }
+        evt.target.parentElement.classList.add('map__pin--active');
+        window.renderCard(window.ads[target.className]);
+      }
+    };
   };
 
 
@@ -168,6 +176,7 @@
     window.deactivatePage();
     window.resetFilters();
     window.renderSuccessMessage();
+    window.isCallRenderAd = false;
   };
 
   window.onSendError = function () {

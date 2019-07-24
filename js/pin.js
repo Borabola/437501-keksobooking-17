@@ -6,10 +6,10 @@
   window.cityMap = document.querySelector('.map');
   window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
-  var isCallLoad = false;
+  window.isCallLoad = false;
   var mainPinStart = {
     x: 570,
-    y: 375
+    y: 375,
   };
 
   /**
@@ -72,7 +72,6 @@
   window.returnMainPin = function () {
     window.mapPinButton.style.top = mainPinStart.y + 'px';
     window.mapPinButton.style.left = mainPinStart.x + 'px';
-    window.cityMap.classList.add('map--faded');
   };
 
   function onMapPinButtonMouseup() {
@@ -95,12 +94,18 @@
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
-    var onMouseMove = function (moveEvt) {
+    var onMouseMove = window.debounce(function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
-      if (!isCallLoad) {
+      if (!window.isCallLoad) {
         window.load(window.onLoadSuccess, window.onLoadError);
-        isCallLoad = true;
+      }
+
+      if (window.isCallLoad) {
+        if (window.isCallRenderAd === false) {
+          window.renderPins(window.ads);
+          window.isCallRenderAd = true;
+        }
       }
 
       var shift = {
@@ -117,7 +122,7 @@
 
       window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
-    };
+    });
 
     /**
      * Функция заполняет поля адреса и удаляет обработчики

@@ -50,5 +50,6 @@
     if (successMessage !== null) {
       window.main.removeChild(successMessage);
     }
+    document.removeEventListener('click', window.removeSuccessPopup);
   };
 })();
