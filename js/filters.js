@@ -2,6 +2,10 @@
 (function () {
   var mapFilters = document.querySelector('.map__filters');
   window.housingTypeFilter = mapFilters.querySelector('#housing-type');
+  var housingPrice = mapFilters.querySelector('#housing-price');
+  var housingRoom = mapFilters.querySelector('#housing-rooms');
+  var housingGuest = mapFilters.querySelector('#housing-guests');
+  var housingFeatures = mapFilters.querySelectorAll('.map__checkbox');
 
   /**
    * Функция фильтрования по типу жилья
@@ -20,4 +24,14 @@
   });
 
   window.housingTypeFilter.addEventListener('change', window.onTypeChange);
+
+  window.resetFilters = function () {
+    window.housingTypeFilter.value = 'any';
+    housingPrice.value = 'any';
+    housingRoom.value = 'any';
+    housingGuest.value = 'any';
+    for (var i = 0; i < housingFeatures.length; i++) {
+      housingFeatures[i].checked = false;
+    }
+  };
 })();

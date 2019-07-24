@@ -166,6 +166,7 @@
     window.closeCard();
     window.returnMainPin();
     window.deactivatePage();
+    window.resetFilters();
     window.renderSuccessMessage();
   };
 
