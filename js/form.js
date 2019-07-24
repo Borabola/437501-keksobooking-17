@@ -15,6 +15,7 @@
   var room = adForm.querySelector('#room_number');
   var guest = adForm.querySelector('#capacity');
   var inputPrice = adForm.querySelector('#price');
+  var resetButton = adForm.querySelector('button[type=reset]');
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -137,4 +138,5 @@
     window.send(formData, window.onSendSuccess, window.onSendError);
   }
   );
+  resetButton.addEventListener('click', window.onSendSuccess);
 })();
