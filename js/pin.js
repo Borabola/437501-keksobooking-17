@@ -94,14 +94,13 @@
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
-    var onMouseMove = window.debounce(function (moveEvt) {
+    var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
       if (!window.isCallLoad) {
+        console.log('загрузки не было');
         window.load(window.onLoadSuccess, window.onLoadError);
-      }
-
-      if (window.isCallLoad) {
+      } else {
         if (window.isCallRenderAd === false) {
           window.renderPins(window.ads);
           window.isCallRenderAd = true;
@@ -122,7 +121,7 @@
 
       window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
-    });
+    };
 
     /**
      * Функция заполняет поля адреса и удаляет обработчики

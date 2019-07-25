@@ -101,7 +101,7 @@
    * Функция отрисовывает указанное количество пинов
    * @param {Ad[]} ads
    */
-  window.renderPins = function (ads) {
+  window.renderPins = window.debounce(function (ads) {
     var fragment = document.createDocumentFragment();
     if (window.isCallRenderAd === false) {
       var pinsNumber = ads.length > 5 ? 5 : ads.length;
@@ -112,14 +112,13 @@
       divPin.appendChild(fragment);
       window.isCallRenderAd = true;
     }
-  };
+  });
 
   /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {AdData[]} serverAds
    */
   window.onLoadSuccess = function (serverAds) {
-    window.isCallLoad = true;
     window.ads = mapServerAdsToAds(serverAds);
     window.renderPins(window.ads);
 
@@ -136,6 +135,8 @@
         window.renderCard(window.ads[target.className]);
       }
     };
+    window.isCallLoad = true;
+    console.log ('загрузка завершена');
   };
 
 
