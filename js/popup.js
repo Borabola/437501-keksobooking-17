@@ -36,8 +36,9 @@
   };
 
   window.removeErrorPopup = function () {
-    window.main.removeChild(errorMessage);
-
+    if (errorMessage) {
+      window.main.removeChild(errorMessage);
+    }
   };
 
   window.renderSuccessMessage = function () {

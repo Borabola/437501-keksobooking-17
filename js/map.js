@@ -49,11 +49,12 @@
  * Модуль работы карты
  */
 (function () {
-  window.isCallRenderAd = false;
+  window.isCallRenderPin = false;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.main = document.querySelector('main');
   var divPin = document.querySelector('.map__pins');
+  // var anyPin = divPin.querySelector('button[type = button]');
 
 
   /**
@@ -101,26 +102,47 @@
    * Функция отрисовывает указанное количество пинов
    * @param {Ad[]} ads
    */
-  window.renderPins = window.debounce(function (ads) {
+  /* window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
-    if (window.isCallRenderAd === false) {
-      var pinsNumber = ads.length > 5 ? 5 : ads.length;
+    window.ads2 = ads;
+    //
+    // if (window.isCallRenderAd === false) {
+    if (!anyPin) {
+      console.log ('ни один пин не отрисован');
+      var pinsNumber = window.ads2.length > 5 ? 5 : window.ads2.length;
       for (var i = 0; i < pinsNumber; i++) {
-        var ad = ads[i];
+        var ad = window.ads2[i];
         fragment.appendChild(renderAd(ad));
       }
       divPin.appendChild(fragment);
-      window.isCallRenderAd = true;
+      window.isCallRenderPin = true;
+      console.log('повторная отрисовка пинов');
     }
-  });
+  };
 
   /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {AdData[]} serverAds
    */
-  window.onLoadSuccess = function (serverAds) {
+  /* window.onLoadSuccess = function (serverAds) {
+    // window.ads = mapServerAdsToAds(serverAds);
+    // window.renderPins(window.ads);
+
+    var fragment = document.createDocumentFragment();
     window.ads = mapServerAdsToAds(serverAds);
-    window.renderPins(window.ads);
+    if (!window.isCallRenderPin) {
+      console.log(anyPin);
+      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
+      for (var i = 0; i < pinsNumber; i++) {
+        var ad = window.ads[i];
+        fragment.appendChild(renderAd(ad));
+      }
+      divPin.appendChild(fragment);
+      console.log(' пины отрисованы 1 раз');
+      window.isCallRenderPin = true;
+      window.isCallLoad = true;
+    }
+
 
     divPin.onclick = function (evt) {
       var target = evt.target;
@@ -135,8 +157,43 @@
         window.renderCard(window.ads[target.className]);
       }
     };
-    window.isCallLoad = true;
-    console.log ('загрузка завершена');
+  }; */
+
+  window.onLoadSuccess = function (serverAds) {
+    var fragment = document.createDocumentFragment();
+    window.ads = mapServerAdsToAds(serverAds);
+    if (!window.isCallRenderPin) {
+      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
+      for (var i = 0; i < pinsNumber; i++) {
+        var ad = window.ads[i];
+        fragment.appendChild(renderAd(ad));
+      }
+
+      divPin.appendChild(fragment);
+      window.isCallRenderPin = true;
+      window.isCallLoad = true;
+
+      divPin.onclick = function (evt) {
+        var target = evt.target;
+        console.log(evt.target);
+        if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins') {
+          return;
+        } else {
+          if (target.className === 'map__pin') {
+            console.log('клик по хвосту');
+            target = target.querySelector('img');
+            console.log(target);
+          }
+          var oldActivePin = divPin.querySelector('.map__pin--active');
+          if (oldActivePin) {
+            debugger;
+            divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+          }
+          target.parentElement.classList.add('map__pin--active');
+          window.renderCard(window.ads[target.className]);
+        }
+      };
+    }
   };
 
 
@@ -152,6 +209,7 @@
     for (var i = 1; i < oldPins.length; i++) {
       divPin.removeChild(oldPins[i]);
     }
+    window.isCallRenderPin = false;
   };
 
   /**
@@ -166,6 +224,8 @@
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
       divPin.appendChild(fragment);
+      console.log('отрисованы отфильтрованные пины');
+
     }
   };
 
@@ -177,7 +237,8 @@
     window.deactivatePage();
     window.resetFilters();
     window.renderSuccessMessage();
-    window.isCallRenderAd = false;
+    window.isCallRenderPin = false;
+    console.log('пины удалены');
   };
 
   window.onSendError = function () {
