@@ -62,6 +62,7 @@
     deactivateElements(adFormFieldsetList);
     deactivateElements(mapFilterFieldsetList);
     window.cityMap.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
     window.fillAddress(true);
   };
 

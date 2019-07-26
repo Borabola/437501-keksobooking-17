@@ -53,7 +53,7 @@
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.main = document.querySelector('main');
-  window.divPin = document.querySelector('.map__pins');
+  window.pinsContainer = document.querySelector('.map__pins');
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -111,7 +111,7 @@
         var ad = window.ads2[i];
         fragment.appendChild(renderAd(ad));
       }
-      window.divPin.appendChild(fragment);
+      window.pinsContainer.appendChild(fragment);
       window.isCallRenderPin = true;
     }
   };
@@ -128,9 +128,9 @@
       if (target.className === 'map__pin') {
         target = target.querySelector('img');
       }
-      var oldActivePin = window.divPin.querySelector('.map__pin--active');
+      var oldActivePin = window.pinsContainer.querySelector('.map__pin--active');
       if (oldActivePin) {
-        window.divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+        window.pinsContainer.querySelector('.map__pin--active').classList.remove('map__pin--active');
       }
       target.parentElement.classList.add('map__pin--active');
       window.renderCard(window.ads[target.className]);
@@ -145,7 +145,7 @@
     window.ads = mapServerAdsToAds(serverAds);
     window.renderPins(window.ads);
     window.isCallLoad = true;
-    window.divPin.onclick = window.onPinClick;
+    window.pinsContainer.onclick = window.onPinClick;
 
   };
 
@@ -158,9 +158,9 @@
    * Функция удаления старых пинов
    */
   window.clearPins = function () {
-    var oldPins = window.divPin.querySelectorAll('.map__pin');
+    var oldPins = window.pinsContainer.querySelectorAll('.map__pin');
     for (var i = 1; i < oldPins.length; i++) {
-      window.divPin.removeChild(oldPins[i]);
+      window.pinsContainer.removeChild(oldPins[i]);
     }
     window.isCallRenderPin = false;
   };
@@ -176,7 +176,7 @@
     for (var i = 0; i < filteredPinsNumber; i++) {
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
-      window.divPin.appendChild(fragment);
+      window.pinsContainer.appendChild(fragment);
     }
   };
 

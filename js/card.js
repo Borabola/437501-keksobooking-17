@@ -54,7 +54,7 @@
     var cardPopup = document.querySelector('.map__card, .popup');
     if (cardPopup) {
       cardPopup.remove();
-      window.divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+      window.pinsContainer.querySelector('.map__pin--active').classList.remove('map__pin--active');
       document.removeEventListener('keydown', window.onCardEscPress);
       window.cardClose.removeEventListener('click', window.closeCard);
     }

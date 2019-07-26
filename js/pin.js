@@ -118,7 +118,7 @@
 
       if (window.isCallLoad && !window.isCallRenderPin) {
         window.renderPins(window.ads);
-        window.divPin.onclick = window.onPinClick;
+        window.pinsContainer.onclick = window.onPinClick;
       }
     };
 
