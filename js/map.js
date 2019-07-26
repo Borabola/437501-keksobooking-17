@@ -104,8 +104,6 @@
   window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
     window.ads2 = ads;
-    //
-    // if (window.isCallRenderAd === false) {
     if (!window.isCallRenderPin) {
       var pinsNumber = window.ads2.length > pinQuantity ? pinQuantity : window.ads2.length;
       for (var i = 0; i < pinsNumber; i++) {
