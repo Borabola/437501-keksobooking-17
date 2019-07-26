@@ -50,6 +50,7 @@
  */
 (function () {
   window.isCallRenderPin = false;
+  var pinQuantity = 5;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.main = document.querySelector('main');
@@ -106,7 +107,7 @@
     //
     // if (window.isCallRenderAd === false) {
     if (!window.isCallRenderPin) {
-      var pinsNumber = window.ads2.length > 5 ? 5 : window.ads2.length;
+      var pinsNumber = window.ads2.length > pinQuantity ? pinQuantity : window.ads2.length;
       for (var i = 0; i < pinsNumber; i++) {
         var ad = window.ads2[i];
         fragment.appendChild(renderAd(ad));
@@ -122,7 +123,7 @@
    */
   window.onPinClick = function (evt) {
     var target = evt.target;
-    if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins' || target.className === 'map__pin map__pin--active') {
+    if (target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins' || target.className === 'map__pin map__pin--active') {
       return;
     } else {
       if (target.className === 'map__pin') {
@@ -172,7 +173,7 @@
   window.rerenderAds = function (filteredData) {
     window.clearPins();
     var fragment = document.createDocumentFragment();
-    var filteredPinsNumber = filteredData.length > 5 ? 5 : filteredData.length;
+    var filteredPinsNumber = filteredData.length > pinQuantity ? pinQuantity : filteredData.length;
     for (var i = 0; i < filteredPinsNumber; i++) {
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
