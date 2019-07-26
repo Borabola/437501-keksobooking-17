@@ -2,6 +2,11 @@
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
   var URL_SEND = 'https://js.dump.academy/keksobooking';
+
+  /**
+   * @param {function} onSuccess
+   * @param {function} onError
+   */
   window.load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -27,7 +32,11 @@
     xhr.open('GET', URL);
     xhr.send();
   };
-
+  /**
+   * @param {data} formData
+   * @param {function} onSuccess
+   * @param {function} onError
+   */
   window.send = function (formData, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
