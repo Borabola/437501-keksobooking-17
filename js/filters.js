@@ -15,11 +15,7 @@
     window.filteredAds = window.ads.filter(function (ad) {
       return ad.offer.type === window.housingTypeFilter.options[window.housingTypeFilter.selectedIndex].value;
     });
-    window.filteredAds = window.filteredAds.concat(window.ads);
-    window.uniqueAds = window.filteredAds.filter(function (it, i) {
-      return window.filteredAds.indexOf(it) === i;
-    });
-    window.rerenderAds(window.uniqueAds);
+    window.rerenderAds(window.filteredAds);
     window.closeCard();
   });
 
