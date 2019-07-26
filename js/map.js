@@ -53,9 +53,7 @@
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.main = document.querySelector('main');
-  var divPin = document.querySelector('.map__pins');
-  // var anyPin = divPin.querySelector('button[type = button]');
-
+  window.divPin = document.querySelector('.map__pins');
 
   /**
    * Функция создает запись положения пина с учетом его размеров
@@ -102,21 +100,40 @@
    * Функция отрисовывает указанное количество пинов
    * @param {Ad[]} ads
    */
-  /* window.renderPins = function (ads) {
+  window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
     window.ads2 = ads;
     //
     // if (window.isCallRenderAd === false) {
-    if (!anyPin) {
-      console.log ('ни один пин не отрисован');
+    if (!window.isCallRenderPin) {
       var pinsNumber = window.ads2.length > 5 ? 5 : window.ads2.length;
       for (var i = 0; i < pinsNumber; i++) {
         var ad = window.ads2[i];
         fragment.appendChild(renderAd(ad));
       }
-      divPin.appendChild(fragment);
+      window.divPin.appendChild(fragment);
       window.isCallRenderPin = true;
-      console.log('повторная отрисовка пинов');
+    }
+  };
+
+  /**
+   * Функция слушает клик на пине, добавляет ему класс .map__pin--active и отрисовывает карточку объявления
+   * @param {Event} evt
+   */
+  window.onPinClick = function (evt) {
+    var target = evt.target;
+    if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins' || target.className === 'map__pin map__pin--active') {
+      return;
+    } else {
+      if (target.className === 'map__pin') {
+        target = target.querySelector('img');
+      }
+      var oldActivePin = window.divPin.querySelector('.map__pin--active');
+      if (oldActivePin) {
+        window.divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
+      }
+      target.parentElement.classList.add('map__pin--active');
+      window.renderCard(window.ads[target.className]);
     }
   };
 
@@ -124,76 +141,12 @@
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {AdData[]} serverAds
    */
-  /* window.onLoadSuccess = function (serverAds) {
-    // window.ads = mapServerAdsToAds(serverAds);
-    // window.renderPins(window.ads);
-
-    var fragment = document.createDocumentFragment();
-    window.ads = mapServerAdsToAds(serverAds);
-    if (!window.isCallRenderPin) {
-      console.log(anyPin);
-      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
-      for (var i = 0; i < pinsNumber; i++) {
-        var ad = window.ads[i];
-        fragment.appendChild(renderAd(ad));
-      }
-      divPin.appendChild(fragment);
-      console.log(' пины отрисованы 1 раз');
-      window.isCallRenderPin = true;
-      window.isCallLoad = true;
-    }
-
-
-    divPin.onclick = function (evt) {
-      var target = evt.target;
-      if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__pin' || target.className === 'map__overlay' || target.className === 'map__pins') {
-        return;
-      } else {
-        var oldActivePin = divPin.querySelector('.map__pin--active');
-        if (oldActivePin) {
-          divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
-        }
-        evt.target.parentElement.classList.add('map__pin--active');
-        window.renderCard(window.ads[target.className]);
-      }
-    };
-  }; */
-
   window.onLoadSuccess = function (serverAds) {
-    var fragment = document.createDocumentFragment();
     window.ads = mapServerAdsToAds(serverAds);
-    if (!window.isCallRenderPin) {
-      var pinsNumber = serverAds.length > 5 ? 5 : serverAds.length;
-      for (var i = 0; i < pinsNumber; i++) {
-        var ad = window.ads[i];
-        fragment.appendChild(renderAd(ad));
-      }
+    window.renderPins(window.ads);
+    window.isCallLoad = true;
+    window.divPin.onclick = window.onPinClick;
 
-      divPin.appendChild(fragment);
-      window.isCallRenderPin = true;
-      window.isCallLoad = true;
-
-      divPin.onclick = function (evt) {
-        var target = evt.target;
-        console.log(evt.target);
-        if (evt.target.parentElement.className === 'map__pin map__pin--main' || evt.target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins') {
-          return;
-        } else {
-          if (target.className === 'map__pin') {
-            console.log('клик по хвосту');
-            target = target.querySelector('img');
-            console.log(target);
-          }
-          var oldActivePin = divPin.querySelector('.map__pin--active');
-          if (oldActivePin) {
-            debugger;
-            divPin.querySelector('.map__pin--active').classList.remove('map__pin--active');
-          }
-          target.parentElement.classList.add('map__pin--active');
-          window.renderCard(window.ads[target.className]);
-        }
-      };
-    }
   };
 
 
@@ -205,9 +158,9 @@
    * Функция удаления старых пинов
    */
   window.clearPins = function () {
-    var oldPins = divPin.querySelectorAll('.map__pin');
+    var oldPins = window.divPin.querySelectorAll('.map__pin');
     for (var i = 1; i < oldPins.length; i++) {
-      divPin.removeChild(oldPins[i]);
+      window.divPin.removeChild(oldPins[i]);
     }
     window.isCallRenderPin = false;
   };
@@ -223,9 +176,7 @@
     for (var i = 0; i < filteredPinsNumber; i++) {
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
-      divPin.appendChild(fragment);
-      console.log('отрисованы отфильтрованные пины');
-
+      window.divPin.appendChild(fragment);
     }
   };
 
@@ -238,7 +189,6 @@
     window.resetFilters();
     window.renderSuccessMessage();
     window.isCallRenderPin = false;
-    console.log('пины удалены');
   };
 
   window.onSendError = function () {

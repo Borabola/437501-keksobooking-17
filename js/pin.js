@@ -94,56 +94,11 @@
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
-    /*var onMouseMove = function (moveEvt) {
-      /* moveEvt.preventDefault();
-      window.activatePage();
-      if (!window.isCallLoad) {
-        console.log('загрузки не было');
-        window.load(window.onLoadSuccess, window.onLoadError);
-      } else {
-        if (window.isCallRenderAd === false) {
-          window.renderPins(window.ads);
-          window.isCallRenderAd = true;
-        }
-      } */
-
-      /*moveEvt.preventDefault();
-      window.activatePage();
-      console.log('активация страницы');
-      if (!window.isCallLoad) {
-        window.load(window.onLoadSuccess, window.onLoadError);
-      }
-
-      var shift = {
-        x: moveEvt.clientX - window.cityMap.offsetLeft,
-        y: moveEvt.clientY - window.cityMap.offsetTop,
-      };
-
-      startCoords = {
-        x: shift.x - window.mapPinButton.offsetWidth / 2,
-        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2,
-      };
-
-      var checkedPinCoordinates = checkPinCoordinatesLimit(startCoords.x, startCoords.y);
-
-      window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
-      window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
-      console.log('ghghghgh');
-      // window.renderPins(window.ads);
-      /*if ((window.isCallRenderPin === false) && (window.isCallLoad === true)) {
-        window.debounce(function () {
-          window.renderPins(window.ads);
-        });
-      } */
-    /*}; */
-
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
       if (!window.isCallLoad) {
-        debugger;
         window.load(window.onLoadSuccess, window.onLoadError);
-        debugger;
       }
 
       var shift = {
@@ -160,6 +115,11 @@
 
       window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
+
+      if (window.isCallLoad && !window.isCallRenderPin) {
+        window.renderPins(window.ads);
+        window.divPin.onclick = window.onPinClick;
+      }
     };
 
     /**
