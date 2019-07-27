@@ -6,7 +6,7 @@
   window.cityMap = document.querySelector('.map');
   window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
-  window.isCallLoad = false;
+  window.isLoadCalled = false;
   var mainPinStart = {
     x: 570,
     y: 375,
@@ -100,7 +100,7 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
-      if (!window.isCallLoad) {
+      if (!window.isLoadCalled) {
         window.load(window.onLoadSuccess, window.onLoadError);
       }
 
@@ -119,7 +119,7 @@
       window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
 
-      if (window.isCallLoad && !window.isCallRenderPin) {
+      if (window.isLoadCalled && !window.isRenderPinsCalled) {
         window.renderPins(window.ads);
         window.pinsContainer.onclick = window.onPinClick;
       }

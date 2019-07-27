@@ -49,7 +49,7 @@
  * Модуль работы карты
  */
 (function () {
-  window.isCallRenderPin = false;
+  window.isRenderPinsCalled = false;
   var pinQuantity = 5;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
@@ -104,14 +104,14 @@
   window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
     window.ads2 = ads;
-    if (!window.isCallRenderPin) {
+    if (!window.isRenderPinsCalled) {
       var pinsNumber = window.ads2.length > pinQuantity ? pinQuantity : window.ads2.length;
       for (var i = 0; i < pinsNumber; i++) {
         var ad = window.ads2[i];
         fragment.appendChild(renderAd(ad));
       }
       window.pinsContainer.appendChild(fragment);
-      window.isCallRenderPin = true;
+      window.isRenderPinsCalled = true;
     }
   };
 
@@ -143,7 +143,7 @@
   window.onLoadSuccess = function (serverAds) {
     window.ads = mapServerAdsToAds(serverAds);
     window.renderPins(window.ads);
-    window.isCallLoad = true;
+    window.isLoadCalled = true;
     window.pinsContainer.onclick = window.onPinClick;
 
   };
@@ -161,7 +161,7 @@
     for (var i = 1; i < oldPins.length; i++) {
       window.pinsContainer.removeChild(oldPins[i]);
     }
-    window.isCallRenderPin = false;
+    window.isRenderPinsCalled = false;
   };
 
   /**
@@ -176,7 +176,7 @@
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
       window.pinsContainer.appendChild(fragment);
-      window.isCallRenderPin = true;
+      window.isRenderPinsCalled = true;
     }
   };
 
@@ -188,7 +188,7 @@
     window.deactivatePage();
     window.resetFilters();
     window.renderSuccessMessage();
-    window.isCallRenderPin = false;
+    window.isRenderPinsCalled = false;
   };
 
   window.onSendError = function () {

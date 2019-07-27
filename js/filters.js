@@ -21,7 +21,7 @@
     }
     if (window.filteredAds.length === 0) {
       window.clearPins();
-      window.isCallRenderPin = true;
+      window.isRenderPinsCalled = true;
     } else {
       window.rerenderAds(window.filteredAds);
     }
