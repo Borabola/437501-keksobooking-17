@@ -90,6 +90,9 @@
       y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2,
     };
 
+    var scrollTop = window.pageYOffset;
+    var scrollLeft = window.pageXOffset;
+
     /**
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
@@ -107,8 +110,8 @@
       };
 
       startCoords = {
-        x: shift.x - window.mapPinButton.offsetWidth / 2,
-        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2,
+        x: shift.x - window.mapPinButton.offsetWidth / 2 + scrollLeft,
+        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2 + scrollTop,
       };
 
       var checkedPinCoordinates = checkPinCoordinatesLimit(startCoords.x, startCoords.y);
