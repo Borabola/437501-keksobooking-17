@@ -6,7 +6,11 @@
   window.cityMap = document.querySelector('.map');
   window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   var PIN_HEIGHT = 70;
-  var isCallLoad = false;
+  window.isLoadCalled = false;
+  var mainPinStart = {
+    x: 570,
+    y: 375,
+  };
 
   /**
    * Функция определения начальных координат метки
@@ -65,6 +69,11 @@
     return (pinCoordinates);
   }
 
+  window.returnMainPin = function () {
+    window.mapPinButton.style.top = mainPinStart.y + 'px';
+    window.mapPinButton.style.left = mainPinStart.x + 'px';
+  };
+
   function onMapPinButtonMouseup() {
     window.fillAddress(false);
   }
@@ -81,6 +90,9 @@
       y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2,
     };
 
+    var scrollTop = window.pageYOffset;
+    var scrollLeft = window.pageXOffset;
+
     /**
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
@@ -88,9 +100,8 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       window.activatePage();
-      if (!isCallLoad) {
+      if (!window.isLoadCalled) {
         window.load(window.onLoadSuccess, window.onLoadError);
-        isCallLoad = true;
       }
 
       var shift = {
@@ -99,14 +110,19 @@
       };
 
       startCoords = {
-        x: shift.x - window.mapPinButton.offsetWidth / 2,
-        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2,
+        x: shift.x - window.mapPinButton.offsetWidth / 2 + scrollLeft,
+        y: shift.y - window.mapPinButton.offsetHeight + window.mapPinButton.offsetWidth / 2 + scrollTop,
       };
 
       var checkedPinCoordinates = checkPinCoordinatesLimit(startCoords.x, startCoords.y);
 
       window.mapPinButton.style.top = (checkedPinCoordinates.y) + 'px';
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
+
+      if (window.isLoadCalled && !window.isRenderPinsCalled) {
+        window.renderPins(window.ads);
+        window.pinsContainer.onclick = window.onPinClick;
+      }
     };
 
     /**

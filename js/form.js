@@ -12,6 +12,10 @@
 
   var checkInTime = document.querySelector('#timein');
   var checkOutTime = document.querySelector('#timeout');
+  var room = adForm.querySelector('#room_number');
+  var guest = adForm.querySelector('#capacity');
+  var inputPrice = adForm.querySelector('#price');
+  var resetButton = adForm.querySelector('button[type=reset]');
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -58,6 +62,8 @@
   window.deactivatePage = function () {
     deactivateElements(adFormFieldsetList);
     deactivateElements(mapFilterFieldsetList);
+    window.cityMap.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
     window.fillAddress(true);
   };
 
@@ -68,7 +74,6 @@
       house: 5000,
       palace: 10000
     };
-    var inputPrice = adForm.querySelector('#price');
     inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
   }
 
@@ -80,7 +85,59 @@
     checkInTime.value = checkOutTime.value;
   }
 
+  function checkRoomToGuest() {
+    var RoomToGuestMessage;
+    if (room.value !== '100') {
+      if (guest.value > room.value) {
+        RoomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
+      } else {
+        if (guest.value === '0') {
+          RoomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
+        } else {
+          RoomToGuestMessage = '';
+        }
+      }
+    } else {
+      if (guest.value !== '0') {
+        RoomToGuestMessage = 'Выберите "не для гостей"';
+      } else {
+        RoomToGuestMessage = '';
+      }
+    }
+
+    guest.setCustomValidity(RoomToGuestMessage);
+  }
+
+  window.resetForm = function () {
+    adForm.querySelector('#title').value = '';
+    inputPrice.value = '';
+    room.value = '1';
+    guest.value = '1';
+    typeOfHousing.value = 'flat';
+    adForm.querySelector('#description').value = '';
+
+    var featureCheckboxes = adForm.querySelectorAll('.feature__checkbox');
+    for (var i = 0; i < featureCheckboxes.length; i++) {
+      featureCheckboxes[i].checked = false;
+    }
+
+    checkInTime.value = '12:00';
+    checkOutTime.value = '12:00';
+  };
+
+  checkRoomToGuest();
+
+  room.addEventListener('change', checkRoomToGuest);
+  guest.addEventListener('change', checkRoomToGuest);
+
   typeOfHousing.addEventListener('change', onTypeInputChange);
   checkInTime.addEventListener('change', onTimeInputChange);
   checkOutTime.addEventListener('change', onTimeOutInputChange);
+  adForm.addEventListener('submit', function (evtSubmit) {
+    evtSubmit.preventDefault();
+    var formData = new FormData(adForm);
+    window.send(formData, window.onSendSuccess, window.onSendError);
+  }
+  );
+  resetButton.addEventListener('click', window.onSendSuccess);
 })();

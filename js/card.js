@@ -52,9 +52,15 @@
 
   window.closeCard = function () {
     var cardPopup = document.querySelector('.map__card, .popup');
-    cardPopup.remove();
-    document.removeEventListener('keydown', window.onCardEscPress);
-    window.cardClose.removeEventListener('click', window.closeCard);
+    if (cardPopup) {
+      cardPopup.remove();
+      var activePin = window.pinsContainer.querySelector('.map__pin--active');
+      if (activePin) {
+        activePin.classList.remove('map__pin--active');
+      }
+      document.removeEventListener('keydown', window.onCardEscPress);
+      window.cardClose.removeEventListener('click', window.closeCard);
+    }
   };
 
   /**
