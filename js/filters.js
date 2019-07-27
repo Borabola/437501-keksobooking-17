@@ -12,9 +12,13 @@
    * @type {function(): void}
    */
   window.onTypeChange = window.debounce(function () {
-    window.filteredAds = window.ads.filter(function (ad) {
-      return ad.offer.type === window.housingTypeFilter.options[window.housingTypeFilter.selectedIndex].value;
-    });
+    if (window.housingTypeFilter.value === 'any') {
+      window.filteredAds = window.ads;
+    } else {
+      window.filteredAds = window.ads.filter(function (ad) {
+        return ad.offer.type === window.housingTypeFilter.options[window.housingTypeFilter.selectedIndex].value;
+      });
+    }
     if (window.filteredAds.length === 0) {
       window.clearPins();
       window.isCallRenderPin = true;

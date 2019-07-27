@@ -171,7 +171,7 @@
   window.rerenderAds = function (filteredData) {
     window.clearPins();
     var fragment = document.createDocumentFragment();
-    var filteredPinsNumber = filteredData.length;
+    var filteredPinsNumber = filteredData.length > pinQuantity ? pinQuantity : filteredData.length;
     for (var i = 0; i < filteredPinsNumber; i++) {
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
