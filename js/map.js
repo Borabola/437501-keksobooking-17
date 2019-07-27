@@ -176,6 +176,7 @@
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
       window.pinsContainer.appendChild(fragment);
+      window.isCallRenderPin = true;
     }
   };
 
