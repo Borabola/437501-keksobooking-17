@@ -22,26 +22,34 @@
     'high': 50000
   };
 
-  var checkHousingTypeChange = function (ad) {
+  function checkHousingTypeChange(ad) {
     if (housingTypeFilter.value === anyValue) {
       return true;
     }
     return ad.offer.type === housingTypeFilter.options[housingTypeFilter.selectedIndex].value;
-  };
+  }
 
-  var checkPriceChange = function (ad) {
+  function checkPriceChange(ad) {
     if (housingPrice.value === anyValue) {
       return true;
     } else if (housingPrice.value === 'high') {
       return ad.offer.price >= housingPriceMap[housingPrice.value];
     }
     return ad.offer.price >= housingPriceMap[housingPrice.value].min && ad.offer.price < housingPriceMap[housingPrice.value].max;
-  };
+  }
+
+  function checkRoomChange(ad) {
+    if (housingRoom.value === anyValue) {
+      return true;
+    }
+    return ad.offer.rooms.toString() === housingRoom.options[housingRoom.selectedIndex].value;
+  }
 
   function filterAd() {
     window.filteredAds = window.ads.filter(function (ad) {
       return checkHousingTypeChange(ad) &&
-        checkPriceChange(ad);
+        checkPriceChange(ad) &&
+        checkRoomChange(ad);
     });
   }
 
