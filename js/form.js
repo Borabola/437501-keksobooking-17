@@ -16,6 +16,12 @@
   var guest = adForm.querySelector('#capacity');
   var inputPrice = adForm.querySelector('#price');
   var resetButton = adForm.querySelector('button[type=reset]');
+  var minPrice = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -68,12 +74,6 @@
   };
 
   function onTypeInputChange() {
-    var minPrice = {
-      bungalo: 0,
-      flat: 1000,
-      house: 5000,
-      palace: 10000
-    };
     inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
   }
 
@@ -114,6 +114,7 @@
     room.value = '1';
     guest.value = '1';
     typeOfHousing.value = 'flat';
+    inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
     adForm.querySelector('#description').value = '';
 
     var featureCheckboxes = adForm.querySelectorAll('.feature__checkbox');
