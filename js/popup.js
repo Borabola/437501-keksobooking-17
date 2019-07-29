@@ -31,8 +31,8 @@
 
   window.addErrorPopup = function () {
     window.main.appendChild(errorMessage);
-    document.addEventListener('click', window.removeErrorPopup);
     document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', window.removeErrorPopup);
   };
 
   window.removeErrorPopup = function () {
