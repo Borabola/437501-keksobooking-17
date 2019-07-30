@@ -188,6 +188,7 @@
     window.deactivatePage();
     window.resetFilters();
     window.resetAvatar();
+    window.resetPhoto();
     window.renderSuccessMessage();
     window.isRenderPinsCalled = false;
   };

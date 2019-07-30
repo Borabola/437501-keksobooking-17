@@ -4,7 +4,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var photoPreviewSize = '70';
+  var photoPreviewSize = 70;
 
   var avatarChooser = document.querySelector('.ad-form-header__input');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
@@ -83,7 +83,6 @@
     }
   }, false);
 
-
   photoDropZone.addEventListener('dragover', function (evt) {
     evt.preventDefault();
   }, false);
@@ -102,5 +101,15 @@
 
   window.resetAvatar = function () {
     avatarPreview.src = avatarInitial;
+  };
+
+  window.resetPhoto = function () {
+    var photoPreviews = document.querySelectorAll('.ad-form__photo');
+    photoPreviews[0].querySelector('img').remove();
+    if (photoPreviews.length > 1) {
+      for (var i = 1; i < photoPreviews.length; i++) {
+        photoPreviews[i].remove();
+      }
+    }
   };
 })();
