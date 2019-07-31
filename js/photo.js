@@ -28,7 +28,7 @@
   };
 
   /**
-   *
+   * Функция отрисовки загружаемых фото
    * @param {File} file
    * @param {HTMLElement} imgElement
    */
@@ -40,8 +40,11 @@
     reader.readAsDataURL(file);
   }
 
-
-  var addPhoto = function (address) {
+  /**
+   * Функция добавляет предпросмотр фото
+   * @param {data} address
+   */
+  function addPhoto(address) {
     var photoElement = document.createElement('img');
     photoElement.src = address;
     photoElement.width = photoPreviewSize;
@@ -53,7 +56,15 @@
     } else {
       photoPreview.appendChild(photoElement);
     }
-  };
+  }
+
+  function renderSeriesPhoto(file) {
+    var reader = new FileReader();
+    reader.addEventListener('load', function () {
+      addPhoto(reader.result);
+    });
+    reader.readAsDataURL(file);
+  }
 
   avatarChooser.addEventListener('change', function () {
     var avatarFile = avatarChooser.files[0];
@@ -64,8 +75,8 @@
 
   photoChooser.addEventListener('change', function () {
     var photoFile = photoChooser.files[0];
-    if (checkType(photoFile) === true) {
-      renderPhoto(photoFile, photoPreview);
+    if (checkType(photoFile)) {
+      renderSeriesPhoto(photoFile);
     }
   });
 
