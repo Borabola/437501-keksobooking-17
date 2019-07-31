@@ -150,6 +150,7 @@
 
 
   window.onLoadError = function () {
+    window.clearPins();
     window.addErrorPopup();
   };
 

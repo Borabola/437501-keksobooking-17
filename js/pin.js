@@ -90,14 +90,13 @@
       y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2,
     };
 
-    var scrollTop = window.pageYOffset;
-    var scrollLeft = window.pageXOffset;
-
     /**
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
     var onMouseMove = function (moveEvt) {
+      var scrollTop = window.pageYOffset;
+      var scrollLeft = window.pageXOffset;
       moveEvt.preventDefault();
       window.activatePage();
       if (!window.isLoadCalled) {
