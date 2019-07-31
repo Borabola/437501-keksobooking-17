@@ -15,7 +15,7 @@
   var elevator = mapFilters.querySelector('#filter-elevator');
   var conditioner = mapFilters.querySelector('#filter-conditioner');
 
-  var housingPriceMap = {
+  var HousingPriceMap = {
     'low': {
       min: 0,
       max: 1000
@@ -48,9 +48,9 @@
     if (housingPrice.value === anyValue) {
       return true;
     } else if (housingPrice.value === 'high') {
-      return ad.offer.price >= housingPriceMap[housingPrice.value];
+      return ad.offer.price >= HousingPriceMap[housingPrice.value];
     }
-    return ad.offer.price >= housingPriceMap[housingPrice.value].min && ad.offer.price < housingPriceMap[housingPrice.value].max;
+    return ad.offer.price >= HousingPriceMap[housingPrice.value].min && ad.offer.price < HousingPriceMap[housingPrice.value].max;
   }
 
   /**

@@ -16,7 +16,7 @@
   var guest = adForm.querySelector('#capacity');
   var inputPrice = adForm.querySelector('#price');
   var resetButton = adForm.querySelector('button[type=reset]');
-  var minPrice = {
+  var MinPrice = {
     bungalo: 0,
     flat: 1000,
     house: 5000,
@@ -74,7 +74,7 @@
   };
 
   function onTypeInputChange() {
-    inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
+    inputPrice.min = inputPrice.placeholder = MinPrice[typeOfHousing.value];
   }
 
   function onTimeInputChange() {
@@ -114,7 +114,7 @@
     room.value = '1';
     guest.value = '1';
     typeOfHousing.value = 'flat';
-    inputPrice.min = inputPrice.placeholder = minPrice[typeOfHousing.value];
+    inputPrice.min = inputPrice.placeholder = MinPrice[typeOfHousing.value];
     adForm.querySelector('#description').value = '';
 
     var featureCheckboxes = adForm.querySelectorAll('.feature__checkbox');

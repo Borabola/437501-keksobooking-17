@@ -3,11 +3,13 @@
   var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
-  var errorMessage = errorTemplate.cloneNode(true);
+  var errorClone = errorTemplate.cloneNode(true);
+  var errorMessage;
   var successTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
-  var successMessage = successTemplate.cloneNode(true);
+  var successClone = successTemplate.cloneNode(true);
+  var successMessage;
   var ESC_KEYCODE = 27;
 
   /**
@@ -30,26 +32,34 @@
   };
 
   window.addErrorPopup = function () {
-    window.main.appendChild(errorMessage);
-    document.addEventListener('click', window.removeErrorPopup);
+    errorMessage = window.main.appendChild(errorClone);
     document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('click', window.removeErrorPopup);
   };
 
   window.removeErrorPopup = function () {
-    if (errorMessage) {
-      window.main.removeChild(errorMessage);
+    if (errorMessage !== null) {
+      errorMessage.remove();
+      window.resetForm();
+      window.clearPins();
+      window.closeCard();
+      window.returnMainPin();
+      window.deactivatePage();
+      window.resetFilters();
+      window.isRenderPinsCalled = false;
+      window.isLoadCalled = false;
     }
   };
 
   window.renderSuccessMessage = function () {
-    window.main.appendChild(successMessage);
+    successMessage = window.main.appendChild(successClone);
     document.addEventListener('keydown', window.onSuccessPopupEscPress);
     document.addEventListener('click', window.removeSuccessPopup);
   };
 
   window.removeSuccessPopup = function () {
     if (successMessage !== null) {
-      window.main.removeChild(successMessage);
+      successMessage.remove();
     }
     document.removeEventListener('click', window.removeSuccessPopup);
   };
