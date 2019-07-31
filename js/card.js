@@ -110,9 +110,8 @@
     removeChildren(cardPhotoBlock);
     if (hasPhotos(ad)) {
       renderPhotosAd(ad);
-    } else {
-      renderPhotoPlaceholder();
     }
+    renderPhotoPlaceholder();
   }
 
   /**
