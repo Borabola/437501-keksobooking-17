@@ -42,7 +42,7 @@
 
   /**
    * Функция добавляет предпросмотр фото
-   * @param {data} address
+   * @param {string} address
    */
   function addPhoto(address) {
     var photoElement = document.createElement('img');
