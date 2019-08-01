@@ -28,6 +28,9 @@
  */
 
 (function () {
+  var FIVE_ENDING = 5;
+  var TWO_ENDING = 20;
+  var FOUR_ENDING = 20;
   var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card')
     .content
@@ -47,10 +50,10 @@
    */
   function declareOfNumber(number, titles) {
     var cases = [2, 0, 1, 1, 1, 2];
-    return titles [(number % 100 > 4 && number % 100 < 20) ? 2 : cases [(number % 10 < 5) ? number % 10 : 5]];
+    return titles [(number % 100 > FOUR_ENDING && number % 100 < TWO_ENDING) ? 2 : cases [(number % 10 < FIVE_ENDING) ? number % 10 : FIVE_ENDING]];
   }
 
-  window.closeCard = function () {
+  function closeCard() {
     var cardPopup = document.querySelector('.map__card, .popup');
     if (cardPopup) {
       cardPopup.remove();
@@ -58,10 +61,10 @@
       if (activePin) {
         activePin.classList.remove('map__pin--active');
       }
-      document.removeEventListener('keydown', window.onCardEscPress);
-      window.cardClose.removeEventListener('click', window.closeCard);
+      document.removeEventListener('keydown', onCardEscPress);
+      window.cardClose.removeEventListener('click', closeCard);
     }
-  };
+  }
 
   /**
    * @param {HTMLElement} elem
@@ -100,7 +103,6 @@
     images.appendChild(image);
     cardPhotoBlock.appendChild(images);
   }
-
 
   /**
    * Функция отрисовки фото в карточку
@@ -157,7 +159,7 @@
    * Функция отрисовки карточки объявления
    * @param {Ad} ad
    */
-  window.renderCard = function (ad) {
+  function renderCard(ad) {
     var filtersContainer = document.querySelector('.map__filters-container');
     fillTextInCard(ad);
     renderCardPhoto(ad);
@@ -166,17 +168,22 @@
     var cardPopup = card.children[0];
     window.cityMap.insertBefore(card, filtersContainer);
     window.cardClose = cardPopup.querySelector('.popup__close');
-    document.addEventListener('keydown', window.onCardEscPress);
-    window.cardClose.addEventListener('click', window.closeCard);
-  };
-
+    document.addEventListener('keydown', onCardEscPress);
+    window.cardClose.addEventListener('click', closeCard);
+  }
 
   /**
    * @param {KeyboardEvent} evt
    */
-  window.onCardEscPress = function (evt) {
+  function onCardEscPress(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      window.closeCard();
+      closeCard();
     }
+  }
+
+  window.card = {
+    onCardEscPress: onCardEscPress,
+    render: renderCard,
+    close: closeCard,
   };
 })();

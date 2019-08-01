@@ -38,11 +38,11 @@
   };
 
   window.removeErrorPopup = function () {
-    if (errorMessage !== null) {
+    if (errorMessage) {
       errorMessage.remove();
       window.resetForm();
       window.clearPins();
-      window.closeCard();
+      window.card.close();
       window.returnMainPin();
       window.deactivatePage();
       window.resetFilters();
@@ -58,7 +58,7 @@
   };
 
   window.removeSuccessPopup = function () {
-    if (successMessage !== null) {
+    if (successMessage) {
       successMessage.remove();
     }
     document.removeEventListener('click', window.removeSuccessPopup);

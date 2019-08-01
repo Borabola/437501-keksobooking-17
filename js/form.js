@@ -28,13 +28,11 @@
    * @param {boolean} isInitial после открытия страницы isInitial= true, после активации isInitial= false
    */
   window.fillAddress = function (isInitial) {
+    var addressLine;
     var adFormAddress = adForm.querySelector('#address');
     var pinLocations = window.getMainPinLocation();
-    if (isInitial) {
-      var addressLine = pinLocations.mainPinX + ', ' + pinLocations.mainPinYInitial;
-    } else {
-      addressLine = pinLocations.mainPinX + ', ' + Math.floor(pinLocations.mainPinY - window.mapPinButton.offsetWidth);
-    }
+    isInitial ? addressLine = pinLocations.mainPinX + ', ' + pinLocations.mainPinYInitial : addressLine = pinLocations.mainPinX + ', ' + Math.floor(pinLocations.mainPinY - window.mapPinButton.offsetWidth);
+
     adFormAddress.value = addressLine;
   };
 

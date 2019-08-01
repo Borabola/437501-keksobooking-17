@@ -49,7 +49,7 @@
  * Модуль работы карты
  */
 (function () {
-  var pinQuantity = 5;
+  var PIN_QUANTITY = 5;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
   window.isRenderPinsCalled = false;
@@ -104,7 +104,7 @@
   window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
     if (!window.isRenderPinsCalled) {
-      var pinsNumber = ads.length > pinQuantity ? pinQuantity : ads.length;
+      var pinsNumber = ads.length > PIN_QUANTITY ? PIN_QUANTITY : ads.length;
       for (var i = 0; i < pinsNumber; i++) {
         var ad = ads[i];
         fragment.appendChild(renderAd(ad));
@@ -122,17 +122,16 @@
     var target = evt.target;
     if (target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins' || target.className === 'map__pin map__pin--active') {
       return;
-    } else {
-      if (target.className === 'map__pin') {
-        target = target.querySelector('img');
-      }
-      var oldActivePin = window.pinsContainer.querySelector('.map__pin--active');
-      if (oldActivePin) {
-        window.pinsContainer.querySelector('.map__pin--active').classList.remove('map__pin--active');
-      }
-      target.parentElement.classList.add('map__pin--active');
-      window.renderCard(window.ads[target.className]);
     }
+    if (target.className === 'map__pin') {
+      target = target.querySelector('img');
+    }
+    var oldActivePin = window.pinsContainer.querySelector('.map__pin--active');
+    if (oldActivePin) {
+      window.pinsContainer.querySelector('.map__pin--active').classList.remove('map__pin--active');
+    }
+    target.parentElement.classList.add('map__pin--active');
+    window.card.render(window.ads[target.className]);
   };
 
   /**
@@ -171,7 +170,7 @@
   window.rerenderAds = function (filteredData) {
     window.clearPins();
     var fragment = document.createDocumentFragment();
-    var filteredPinsNumber = filteredData.length > pinQuantity ? pinQuantity : filteredData.length;
+    var filteredPinsNumber = filteredData.length > PIN_QUANTITY ? PIN_QUANTITY : filteredData.length;
     for (var i = 0; i < filteredPinsNumber; i++) {
       var ad = filteredData[i];
       fragment.appendChild(renderAd(ad));
@@ -183,7 +182,7 @@
   window.onSendSuccess = function () {
     window.resetForm();
     window.clearPins();
-    window.closeCard();
+    window.card.close();
     window.returnMainPin();
     window.deactivatePage();
     window.resetFilters();

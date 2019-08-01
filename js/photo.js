@@ -4,7 +4,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var photoPreviewSize = 70;
+  var PHOTO_PREVIEW_SIZE = 70;
 
   var avatarChooser = document.querySelector('.ad-form-header__input');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
@@ -47,8 +47,8 @@
   function addPhoto(address) {
     var photoElement = document.createElement('img');
     photoElement.src = address;
-    photoElement.width = photoPreviewSize;
-    photoElement.height = photoPreviewSize;
+    photoElement.width = PHOTO_PREVIEW_SIZE;
+    photoElement.height = PHOTO_PREVIEW_SIZE;
     if (document.querySelector('.ad-form__photo img')) {
       var nextPhotoContainer = photoPreview.cloneNode(false);
       photoContainer.appendChild(nextPhotoContainer);
@@ -89,7 +89,7 @@
 
     var avatarFile = evt.dataTransfer.files[0];
 
-    if (checkType(avatarFile) === true) {
+    if (checkType(avatarFile)) {
       renderPhoto(avatarFile, avatarPreview);
     }
   }, false);
@@ -101,7 +101,7 @@
   photoDropZone.addEventListener('drop', function (evt) {
     evt.preventDefault();
     var photoFile = evt.dataTransfer.files[0];
-    if (checkType(photoFile) === true) {
+    if (checkType(photoFile)) {
       var reader = new FileReader();
       reader.addEventListener('load', function () {
         addPhoto(reader.result);

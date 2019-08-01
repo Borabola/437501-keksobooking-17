@@ -47,7 +47,7 @@
   function checkPriceChange(ad) {
     if (housingPrice.value === anyValue) {
       return true;
-    } else if (housingPrice.value === 'high') {
+    } if (housingPrice.value === 'high') {
       return ad.offer.price >= HousingPriceMap[housingPrice.value];
     }
     return ad.offer.price >= HousingPriceMap[housingPrice.value].min && ad.offer.price < HousingPriceMap[housingPrice.value].max;
@@ -115,7 +115,7 @@
     } else {
       window.debounce(renderFilteredPins);
     }
-    window.closeCard();
+    window.card.close();
   }
 
   mapFilters.addEventListener('change', onFiltersChange);
