@@ -1,5 +1,19 @@
 'use strict';
 (function () {
+  var HousingPriceMap = {
+    'low': {
+      min: 0,
+      max: 1000
+    },
+
+    'middle': {
+      min: 10000,
+      max: 50000
+    },
+
+    'high': 50000
+  };
+
   var mapFilters = document.querySelector('.map__filters');
   var housingTypeFilter = mapFilters.querySelector('#housing-type');
   var housingPrice = mapFilters.querySelector('#housing-price');
@@ -14,20 +28,6 @@
   var washer = mapFilters.querySelector('#filter-washer');
   var elevator = mapFilters.querySelector('#filter-elevator');
   var conditioner = mapFilters.querySelector('#filter-conditioner');
-
-  var HousingPriceMap = {
-    'low': {
-      min: 0,
-      max: 1000
-    },
-
-    'middle': {
-      min: 10000,
-      max: 50000
-    },
-
-    'high': 50000
-  };
 
   /**
    * @param {Ad} ad

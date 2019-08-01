@@ -49,10 +49,10 @@
  * Модуль работы карты
  */
 (function () {
-  window.isRenderPinsCalled = false;
   var pinQuantity = 5;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+  window.isRenderPinsCalled = false;
   window.main = document.querySelector('main');
   window.pinsContainer = document.querySelector('.map__pins');
 
@@ -103,11 +103,10 @@
    */
   window.renderPins = function (ads) {
     var fragment = document.createDocumentFragment();
-    window.ads2 = ads;
     if (!window.isRenderPinsCalled) {
-      var pinsNumber = window.ads2.length > pinQuantity ? pinQuantity : window.ads2.length;
+      var pinsNumber = ads.length > pinQuantity ? pinQuantity : ads.length;
       for (var i = 0; i < pinsNumber; i++) {
-        var ad = window.ads2[i];
+        var ad = ads[i];
         fragment.appendChild(renderAd(ad));
       }
       window.pinsContainer.appendChild(fragment);

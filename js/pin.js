@@ -3,14 +3,14 @@
  * Модуль, описывающий поведение главного пина и события на нем
  */
 (function () {
-  window.cityMap = document.querySelector('.map');
-  window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   var MAIN_PIN_HEIGHT = 70;
-  window.isLoadCalled = false;
   var mainPinStart = {
     x: 570,
     y: 375,
   };
+  window.cityMap = document.querySelector('.map');
+  window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
+  window.isLoadCalled = false;
 
   /**
    * Функция определения начальных координат метки
