@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var ESC_KEYCODE = 27;
   var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -10,7 +11,6 @@
     .querySelector('.success');
   var successClone = successTemplate.cloneNode(true);
   var successMessage;
-  var ESC_KEYCODE = 27;
 
   /**
    * @param {KeyboardEvent} evt

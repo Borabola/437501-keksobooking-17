@@ -3,14 +3,14 @@
  * Модуль, описывающий поведение главного пина и события на нем
  */
 (function () {
-  window.cityMap = document.querySelector('.map');
-  window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
-  var PIN_HEIGHT = 70;
-  window.isLoadCalled = false;
+  var MAIN_PIN_HEIGHT = 70;
   var mainPinStart = {
     x: 570,
     y: 375,
   };
+  window.cityMap = document.querySelector('.map');
+  window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
+  window.isLoadCalled = false;
 
   /**
    * Функция определения начальных координат метки
@@ -26,7 +26,7 @@
     var pinLocations = {};
     var pinX = Math.floor(window.mapPinButton.offsetLeft + window.mapPinButton.offsetWidth / 2);
     var pinY = Math.floor(window.mapPinButton.offsetTop + window.mapPinButton.offsetHeight);
-    var pinYInitial = Math.floor(pinY - PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
+    var pinYInitial = Math.floor(pinY - MAIN_PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
     pinLocations.mainPinX = pinX;
     pinLocations.mainPinY = pinY;
     pinLocations.mainPinYInitial = pinYInitial;
@@ -90,14 +90,13 @@
       y: pinLocations.mainPinY + window.mapPinButton.offsetHeight - window.mapPinButton.offsetWidth / 2,
     };
 
-    var scrollTop = window.pageYOffset;
-    var scrollLeft = window.pageXOffset;
-
     /**
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
     var onMouseMove = function (moveEvt) {
+      var scrollTop = window.pageYOffset;
+      var scrollLeft = window.pageXOffset;
       moveEvt.preventDefault();
       window.activatePage();
       if (!window.isLoadCalled) {

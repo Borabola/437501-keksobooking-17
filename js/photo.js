@@ -68,14 +68,14 @@
 
   avatarChooser.addEventListener('change', function () {
     var avatarFile = avatarChooser.files[0];
-    if (checkType(avatarFile)) {
+    if (checkType(avatarFile) && window.isLoadCalled) {
       renderPhoto(avatarFile, avatarPreview);
     }
   });
 
   photoChooser.addEventListener('change', function () {
     var photoFile = photoChooser.files[0];
-    if (checkType(photoFile)) {
+    if (checkType(photoFile) && window.isLoadCalled) {
       renderSeriesPhoto(photoFile);
     }
   });
@@ -116,7 +116,10 @@
 
   window.resetPhoto = function () {
     var photoPreviews = document.querySelectorAll('.ad-form__photo');
-    photoPreviews[0].querySelector('img').remove();
+    var imgPhotoPreview = photoPreviews[0].querySelector('img');
+    if (imgPhotoPreview) {
+      imgPhotoPreview.remove();
+    }
     if (photoPreviews.length > 1) {
       for (var i = 1; i < photoPreviews.length; i++) {
         photoPreviews[i].remove();

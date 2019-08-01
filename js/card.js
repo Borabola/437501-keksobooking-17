@@ -28,6 +28,7 @@
  */
 
 (function () {
+  var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card, .popup');
@@ -37,7 +38,6 @@
   var images = document.createDocumentFragment();
   var cardPhotoBlock = adCard.querySelector('.popup__photos');
   var cardPhoto = adCard.querySelector('.popup__photo');
-  var ESC_KEYCODE = 27;
 
   /**
    * Функция выбирает нужное склонение слов в зависимости от числа
@@ -45,7 +45,7 @@
    * @param {string} titles
    * @return {string}
    */
-  function declOfNum(number, titles) {
+  function declareOfNumber(number, titles) {
     var cases = [2, 0, 1, 1, 1, 2];
     return titles [(number % 100 > 4 && number % 100 < 20) ? 2 : cases [(number % 10 < 5) ? number % 10 : 5]];
   }
@@ -110,9 +110,8 @@
     removeChildren(cardPhotoBlock);
     if (hasPhotos(ad)) {
       renderPhotosAd(ad);
-    } else {
-      renderPhotoPlaceholder();
     }
+    renderPhotoPlaceholder();
   }
 
   /**
@@ -137,7 +136,7 @@
    * @param {Ad} ad
    */
   function fillTextInCard(ad) {
-    var types = {
+    var Types = {
       'bungalo': 'Бунгало',
       'flat': 'Квартира',
       'palace': 'Дворец',
@@ -147,8 +146,8 @@
     adCard.querySelector('.popup__title').textContent = ad.offer.title;
     adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
     adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    adCard.querySelector('.popup__type').textContent = types[ad.offer.type];
-    adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' ' + declOfNum(ad.offer.rooms, ['комната', 'комнаты', 'комнат']) + ' для ' + ad.offer.guests + ' ' + declOfNum(ad.offer.guests, ['гостя', 'гостей', 'гостей']);
+    adCard.querySelector('.popup__type').textContent = Types[ad.offer.type];
+    adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' ' + declareOfNumber(ad.offer.rooms, ['комната', 'комнаты', 'комнат']) + ' для ' + ad.offer.guests + ' ' + declareOfNumber(ad.offer.guests, ['гостя', 'гостей', 'гостей']);
     adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     adCard.querySelector('.popup__description').textContent = ad.offer.description;
     avatar.src = ad.author.avatar;

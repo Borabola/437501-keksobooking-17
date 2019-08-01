@@ -40,11 +40,11 @@
 
   /**
    * Функция дабавляет атрибут disabled к элементам
-   * @param {HTMLElement[]} elementList
+   * @param {HTMLElement[]} elementLists
    */
-  function deactivateElements(elementList) {
-    for (var i = 0; i < elementList.length; i++) {
-      elementList[i].disabled = true;
+  function deactivateElements(elementLists) {
+    for (var i = 0; i < elementLists.length; i++) {
+      elementLists[i].disabled = true;
     }
   }
 
@@ -73,39 +73,35 @@
     window.fillAddress(true);
   };
 
-  function onTypeInputChange() {
+  function onTypeOfHousingChange() {
     inputPrice.min = inputPrice.placeholder = MinPrice[typeOfHousing.value];
   }
 
-  function onTimeInputChange() {
+  function onCheckInTimeChange() {
     checkOutTime.value = checkInTime.value;
   }
 
-  function onTimeOutInputChange() {
+  function onCheckOutTimeChange() {
     checkInTime.value = checkOutTime.value;
   }
 
   function checkRoomToGuest() {
-    var RoomToGuestMessage;
+    var roomToGuestMessage = '';
     if (room.value !== '100') {
       if (guest.value > room.value) {
-        RoomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
+        roomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
       } else {
         if (guest.value === '0') {
-          RoomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
-        } else {
-          RoomToGuestMessage = '';
+          roomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
         }
       }
     } else {
       if (guest.value !== '0') {
-        RoomToGuestMessage = 'Выберите "не для гостей"';
-      } else {
-        RoomToGuestMessage = '';
+        roomToGuestMessage = 'Выберите "не для гостей"';
       }
     }
 
-    guest.setCustomValidity(RoomToGuestMessage);
+    guest.setCustomValidity(roomToGuestMessage);
   }
 
   window.resetForm = function () {
@@ -131,9 +127,9 @@
   room.addEventListener('change', checkRoomToGuest);
   guest.addEventListener('change', checkRoomToGuest);
 
-  typeOfHousing.addEventListener('change', onTypeInputChange);
-  checkInTime.addEventListener('change', onTimeInputChange);
-  checkOutTime.addEventListener('change', onTimeOutInputChange);
+  typeOfHousing.addEventListener('change', onTypeOfHousingChange);
+  checkInTime.addEventListener('change', onCheckInTimeChange);
+  checkOutTime.addEventListener('change', onCheckOutTimeChange);
   adForm.addEventListener('submit', function (evtSubmit) {
     evtSubmit.preventDefault();
     var formData = new FormData(adForm);
