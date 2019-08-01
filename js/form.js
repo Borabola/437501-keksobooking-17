@@ -86,26 +86,22 @@
   }
 
   function checkRoomToGuest() {
-    var RoomToGuestMessage;
+    var roomToGuestMessage = '';
     if (room.value !== '100') {
       if (guest.value > room.value) {
-        RoomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
+        roomToGuestMessage = 'Укажите количество гостей не больше ' + room.value;
       } else {
         if (guest.value === '0') {
-          RoomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
-        } else {
-          RoomToGuestMessage = '';
+          roomToGuestMessage = '"не для гостей" для апартаментов  со 100 комнатами';
         }
       }
     } else {
       if (guest.value !== '0') {
-        RoomToGuestMessage = 'Выберите "не для гостей"';
-      } else {
-        RoomToGuestMessage = '';
+        roomToGuestMessage = 'Выберите "не для гостей"';
       }
     }
 
-    guest.setCustomValidity(RoomToGuestMessage);
+    guest.setCustomValidity(roomToGuestMessage);
   }
 
   window.resetForm = function () {

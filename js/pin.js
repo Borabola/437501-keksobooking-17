@@ -5,7 +5,7 @@
 (function () {
   window.cityMap = document.querySelector('.map');
   window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
-  var PIN_HEIGHT = 70;
+  var MAIN_PIN_HEIGHT = 70;
   window.isLoadCalled = false;
   var mainPinStart = {
     x: 570,
@@ -26,7 +26,7 @@
     var pinLocations = {};
     var pinX = Math.floor(window.mapPinButton.offsetLeft + window.mapPinButton.offsetWidth / 2);
     var pinY = Math.floor(window.mapPinButton.offsetTop + window.mapPinButton.offsetHeight);
-    var pinYInitial = Math.floor(pinY - PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
+    var pinYInitial = Math.floor(pinY - MAIN_PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
     pinLocations.mainPinX = pinX;
     pinLocations.mainPinY = pinY;
     pinLocations.mainPinYInitial = pinYInitial;
