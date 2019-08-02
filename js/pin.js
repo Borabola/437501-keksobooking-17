@@ -11,6 +11,7 @@
   window.cityMap = document.querySelector('.map');
   window.mapPinButton = window.cityMap.querySelector('.map__pin--main');
   window.isLoadCalled = false;
+  window.pinLocations = {};
 
   /**
    * Функция определения начальных координат метки
@@ -22,16 +23,15 @@
    * }
    * }
    */
-  window.getMainPinLocation = function () {
-    var pinLocations = {};
+  function getMainPinLocation() {
     var pinX = Math.floor(window.mapPinButton.offsetLeft + window.mapPinButton.offsetWidth / 2);
     var pinY = Math.floor(window.mapPinButton.offsetTop + window.mapPinButton.offsetHeight);
     var pinYInitial = Math.floor(pinY - MAIN_PIN_HEIGHT + window.mapPinButton.offsetWidth / 2);
-    pinLocations.mainPinX = pinX;
-    pinLocations.mainPinY = pinY;
-    pinLocations.mainPinYInitial = pinYInitial;
-    return pinLocations;
-  };
+    window.pinLocations.mainPinX = pinX;
+    window.pinLocations.mainPinY = pinY;
+    window.pinLocations.mainPinYInitial = pinYInitial;
+    return window.pinLocations;
+  }
 
   /**
    * Функция проверяет, чтобы координаты пина не выходили за границы поля map
@@ -75,14 +75,14 @@
   };
 
   function onMapPinButtonMouseup() {
-    window.fillAddress(false);
+    window.form.fillAddress(false);
   }
 
   /**
    * @param {Event} evt
    */
   function onMapPinButtonMousedown(evt) {
-    var pinLocations = window.getMainPinLocation();
+    var pinLocations = getMainPinLocation();
     evt.preventDefault();
 
     var startCoords = {
@@ -94,13 +94,13 @@
      * Функция отслеживает перемещения курсора и передает их в стили пина
      * @param {Event} moveEvt
      */
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       var scrollTop = window.pageYOffset;
       var scrollLeft = window.pageXOffset;
       moveEvt.preventDefault();
-      window.activatePage();
+      window.form.activatePage();
       if (!window.isLoadCalled) {
-        window.load(window.onLoadSuccess, window.onLoadError);
+        window.loading.loadAd(window.map.onLoadSuccess, window.map.onLoadError);
       }
 
       var shift = {
@@ -119,28 +119,28 @@
       window.mapPinButton.style.left = (checkedPinCoordinates.x) + 'px';
 
       if (window.isLoadCalled && !window.isRenderPinsCalled) {
-        window.renderPins(window.ads);
-        window.pinsContainer.onclick = window.onPinClick;
+        window.map.renderPins(window.ads);
+        window.pinsContainer.onclick = window.map.onPinClick;
       }
-    };
+    }
 
     /**
      * Функция заполняет поля адреса и удаляет обработчики
      * @param {Event} upEvt
      */
-    var onMouseUp = function (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
-      window.fillAddress(false);
+      window.form.fillAddress(false);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     window.mapPinButton.removeEventListener('mouseup', onMapPinButtonMouseup);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  window.deactivatePage();
+  window.form.deactivatePage();
   window.mapPinButton.addEventListener('mousedown', onMapPinButtonMousedown);
 })();

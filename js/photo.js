@@ -1,6 +1,6 @@
 'use strict';
 
-/* MODULE HANDLES IMAGES UPLOADING IN THE FORM */
+/* Модуль отрисовки фото в форму */
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -20,12 +20,12 @@
    * @param {File} file
    * @return {boolean}
    */
-  var checkType = function (file) {
+  function checkType(file) {
     var matches = FILE_TYPES.some(function (it) {
       return file.name.toLowerCase().endsWith(it);
     });
     return matches;
-  };
+  }
 
   /**
    * Функция отрисовки загружаемых фото
@@ -110,11 +110,11 @@
     }
   }, false);
 
-  window.resetAvatar = function () {
+  function resetAvatar() {
     avatarPreview.src = avatarInitial;
-  };
+  }
 
-  window.resetPhoto = function () {
+  function resetPhoto() {
     var photoPreviews = document.querySelectorAll('.ad-form__photo');
     var imgPhotoPreview = photoPreviews[0].querySelector('img');
     if (imgPhotoPreview) {
@@ -125,5 +125,10 @@
         photoPreviews[i].remove();
       }
     }
+  }
+
+  window.photo = {
+    resetAvatar: resetAvatar,
+    resetPhoto: resetPhoto
   };
 })();

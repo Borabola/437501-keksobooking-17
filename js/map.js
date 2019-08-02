@@ -62,10 +62,9 @@
    * @param {number} y
    * @return {string}
    */
-  window.getPinLocation = function (x, y) {
+  function getPinLocation(x, y) {
     return 'left:' + (x - PIN_WIDTH / 2) + 'px; top:' + (y - PIN_HEIGHT) + 'px;';
-  };
-
+  }
 
   /**
    * функция берет объект объявления и создает разметку объявления
@@ -76,7 +75,7 @@
     var pinTemplate = document.querySelector('#pin')
       .content
       .querySelector('.map__pin');
-    var pinLocation = window.getPinLocation(ad.location.x, ad.location.y);
+    var pinLocation = getPinLocation(ad.location.x, ad.location.y);
     var adElement = pinTemplate.cloneNode(true);
     adElement.setAttribute('style', pinLocation);
     adElement.children[0].setAttribute('src', ad.author.avatar);
@@ -101,7 +100,7 @@
    * Функция отрисовывает указанное количество пинов
    * @param {Ad[]} ads
    */
-  window.renderPins = function (ads) {
+  function renderPins(ads) {
     var fragment = document.createDocumentFragment();
     if (!window.isRenderPinsCalled) {
       var pinsNumber = ads.length > PIN_QUANTITY ? PIN_QUANTITY : ads.length;
@@ -112,13 +111,13 @@
       window.pinsContainer.appendChild(fragment);
       window.isRenderPinsCalled = true;
     }
-  };
+  }
 
   /**
    * Функция слушает клик на пине, добавляет ему класс .map__pin--active и отрисовывает карточку объявления
    * @param {Event} evt
    */
-  window.onPinClick = function (evt) {
+  function onPinClick(evt) {
     var target = evt.target;
     if (target.parentElement.className === 'map__pin map__pin--main' || target.className === 'map__pin map__pin--main' || target.className === 'map__overlay' || target.className === 'map__pins' || target.className === 'map__pin map__pin--active') {
       return;
@@ -132,43 +131,42 @@
     }
     target.parentElement.classList.add('map__pin--active');
     window.card.render(window.ads[target.className]);
-  };
+  }
 
   /**
    * Функция  Функция берет массив объектов oбъявлений, добавляет фрагмент описания героя из массива объектов
    * @param {AdData[]} serverAds
    */
-  window.onLoadSuccess = function (serverAds) {
+  function onLoadSuccess(serverAds) {
     window.ads = mapServerAdsToAds(serverAds);
-    window.renderPins(window.ads);
+    renderPins(window.ads);
     window.isLoadCalled = true;
-    window.pinsContainer.onclick = window.onPinClick;
+    window.pinsContainer.onclick = onPinClick;
+  }
 
-  };
 
-
-  window.onLoadError = function () {
-    window.clearPins();
-    window.addErrorPopup();
-  };
+  function onLoadError() {
+    clearPins();
+    window.popup.addError();
+  }
 
   /**
    * Функция удаления старых пинов
    */
-  window.clearPins = function () {
+  function clearPins() {
     var oldPins = window.pinsContainer.querySelectorAll('.map__pin');
     for (var i = 1; i < oldPins.length; i++) {
       window.pinsContainer.removeChild(oldPins[i]);
     }
     window.isRenderPinsCalled = false;
-  };
+  }
 
   /**
    * Функция отрисовки отфильтрованных пинов
    * @param {Ad[]} filteredData
    */
-  window.rerenderAds = function (filteredData) {
-    window.clearPins();
+  function rerenderAds(filteredData) {
+    clearPins();
     var fragment = document.createDocumentFragment();
     var filteredPinsNumber = filteredData.length > PIN_QUANTITY ? PIN_QUANTITY : filteredData.length;
     for (var i = 0; i < filteredPinsNumber; i++) {
@@ -177,22 +175,33 @@
       window.pinsContainer.appendChild(fragment);
       window.isRenderPinsCalled = true;
     }
-  };
+  }
 
-  window.onSendSuccess = function () {
-    window.resetForm();
-    window.clearPins();
+  function onSendSuccess() {
+    window.form.resetForm();
+    clearPins();
     window.card.close();
     window.returnMainPin();
-    window.deactivatePage();
+    window.form.deactivatePage();
     window.resetFilters();
-    window.resetAvatar();
-    window.resetPhoto();
-    window.renderSuccessMessage();
+    window.photo.resetAvatar();
+    window.photo.resetPhoto();
+    window.popup.renderSuccessMessage();
     window.isRenderPinsCalled = false;
-  };
+  }
 
-  window.onSendError = function () {
-    window.addErrorPopup();
+  function onSendError() {
+    window.popup.addError();
+  }
+
+  window.map = {
+    renderPins: renderPins,
+    clearPins: clearPins,
+    onPinClick: onPinClick,
+    onLoadSuccess: onLoadSuccess,
+    onLoadError: onLoadError,
+    onSendSuccess: onSendSuccess,
+    onSendError: onSendError,
+    rerenderAds: rerenderAds
   };
 })();

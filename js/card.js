@@ -53,7 +53,7 @@
     return titles [(number % 100 > FOUR_ENDING && number % 100 < TWO_ENDING) ? 2 : cases [(number % 10 < FIVE_ENDING) ? number % 10 : FIVE_ENDING]];
   }
 
-  function closeCard() {
+  function onCardCloseClick() {
     var cardPopup = document.querySelector('.map__card, .popup');
     if (cardPopup) {
       cardPopup.remove();
@@ -62,7 +62,7 @@
         activePin.classList.remove('map__pin--active');
       }
       document.removeEventListener('keydown', onCardEscPress);
-      window.cardClose.removeEventListener('click', closeCard);
+      window.cardClose.removeEventListener('click', onCardCloseClick);
     }
   }
 
@@ -139,16 +139,16 @@
    */
   function fillTextInCard(ad) {
     var Types = {
-      'bungalo': 'Бунгало',
-      'flat': 'Квартира',
-      'palace': 'Дворец',
-      'house': 'Дом',
+      'BUNGALO': 'Бунгало',
+      'FLAT': 'Квартира',
+      'PALACE': 'Дворец',
+      'HOUSE': 'Дом',
     };
     var avatar = adCard.querySelector('.popup__avatar');
     adCard.querySelector('.popup__title').textContent = ad.offer.title;
     adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
     adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-    adCard.querySelector('.popup__type').textContent = Types[ad.offer.type];
+    adCard.querySelector('.popup__type').textContent = Types[ad.offer.type.toLocaleUpperCase()];
     adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' ' + declareOfNumber(ad.offer.rooms, ['комната', 'комнаты', 'комнат']) + ' для ' + ad.offer.guests + ' ' + declareOfNumber(ad.offer.guests, ['гостя', 'гостей', 'гостей']);
     adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
     adCard.querySelector('.popup__description').textContent = ad.offer.description;
@@ -169,7 +169,7 @@
     window.cityMap.insertBefore(card, filtersContainer);
     window.cardClose = cardPopup.querySelector('.popup__close');
     document.addEventListener('keydown', onCardEscPress);
-    window.cardClose.addEventListener('click', closeCard);
+    window.cardClose.addEventListener('click', onCardCloseClick);
   }
 
   /**
@@ -177,13 +177,12 @@
    */
   function onCardEscPress(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      closeCard();
+      onCardCloseClick();
     }
   }
 
   window.card = {
-    onCardEscPress: onCardEscPress,
     render: renderCard,
-    close: closeCard,
+    close: onCardCloseClick,
   };
 })();

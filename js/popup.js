@@ -15,52 +15,57 @@
   /**
    * @param {KeyboardEvent} evt
    */
-  var onPopupEscPress = function (evt) {
+  function onPopupEscPress(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      window.removeErrorPopup();
+      onErrorPopupClick();
     }
-  };
+  }
 
   /**
    * @param {KeyboardEvent} evt
    */
-  window.onSuccessPopupEscPress = function (evt) {
+  function onSuccessPopupEscPress(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
-      window.removeSuccessPopup();
-      document.removeEventListener('click', window.removeSuccessPopup);
+      onSuccessPopupClick();
+      document.removeEventListener('click', onSuccessPopupClick);
     }
-  };
+  }
 
-  window.addErrorPopup = function () {
+  function addErrorPopup() {
     errorMessage = window.main.appendChild(errorClone);
     document.addEventListener('keydown', onPopupEscPress);
-    document.addEventListener('click', window.removeErrorPopup);
-  };
+    document.addEventListener('click', onErrorPopupClick);
+  }
 
-  window.removeErrorPopup = function () {
+  function onErrorPopupClick() {
     if (errorMessage) {
       errorMessage.remove();
-      window.resetForm();
-      window.clearPins();
+      window.form.resetForm();
+      window.map.clearPins();
       window.card.close();
       window.returnMainPin();
-      window.deactivatePage();
+      window.form.deactivatePage();
       window.resetFilters();
       window.isRenderPinsCalled = false;
       window.isLoadCalled = false;
     }
-  };
+  }
 
-  window.renderSuccessMessage = function () {
+  function renderSuccessMessage() {
     successMessage = window.main.appendChild(successClone);
-    document.addEventListener('keydown', window.onSuccessPopupEscPress);
-    document.addEventListener('click', window.removeSuccessPopup);
-  };
+    document.addEventListener('keydown', onSuccessPopupEscPress);
+    document.addEventListener('click', onSuccessPopupClick);
+  }
 
-  window.removeSuccessPopup = function () {
+  function onSuccessPopupClick() {
     if (successMessage) {
       successMessage.remove();
     }
-    document.removeEventListener('click', window.removeSuccessPopup);
+    document.removeEventListener('click', onSuccessPopupClick);
+  }
+
+  window.popup = {
+    renderSuccessMessage: renderSuccessMessage,
+    addError: addErrorPopup,
   };
 })();

@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var HousingPriceMap = {
+  var housingPriceMap = {
     'low': {
       min: 0,
       max: 1000
@@ -48,9 +48,9 @@
     if (housingPrice.value === anyValue) {
       return true;
     } if (housingPrice.value === 'high') {
-      return ad.offer.price >= HousingPriceMap[housingPrice.value];
+      return ad.offer.price >= housingPriceMap[housingPrice.value];
     }
-    return ad.offer.price >= HousingPriceMap[housingPrice.value].min && ad.offer.price < HousingPriceMap[housingPrice.value].max;
+    return ad.offer.price >= housingPriceMap[housingPrice.value].min && ad.offer.price < housingPriceMap[housingPrice.value].max;
   }
 
   /**
@@ -104,13 +104,13 @@
   }
 
   function renderFilteredPins() {
-    window.rerenderAds(window.filteredAds);
+    window.map.rerenderAds(window.filteredAds);
   }
 
   function onFiltersChange() {
     filterAd();
     if (window.filteredAds.length === 0) {
-      window.clearPins();
+      window.map.clearPins();
       window.isRenderPinsCalled = true;
     } else {
       window.debounce(renderFilteredPins);
@@ -119,6 +119,7 @@
   }
 
   mapFilters.addEventListener('change', onFiltersChange);
+
   window.resetFilters = function () {
     housingTypeFilter.value = anyValue;
     housingPrice.value = anyValue;
