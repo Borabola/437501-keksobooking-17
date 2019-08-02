@@ -27,7 +27,7 @@
       moveEvt.preventDefault();
       window.form.activatePage();
       if (!window.isLoadCalled) {
-        window.loading.loadAd(window.map.onLoadSuccess, window.map.onLoadError);
+        window.network.loadAd(window.map.onLoadSuccess, window.map.onLoadError);
       }
 
       var shift = {

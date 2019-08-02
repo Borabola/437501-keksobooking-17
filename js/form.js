@@ -130,7 +130,7 @@
   adForm.addEventListener('submit', function (evtSubmit) {
     evtSubmit.preventDefault();
     var formData = new FormData(adForm);
-    window.loading.sendAd(formData, window.map.onSendSuccess, window.map.onSendError);
+    window.network.sendAd(formData, window.map.onSendSuccess, window.map.onSendError);
   }
   );
   resetButton.addEventListener('click', window.map.onSendSuccess);

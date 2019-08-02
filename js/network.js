@@ -67,7 +67,7 @@
     xhr.send(formData);
   }
 
-  window.loading = {
+  window.network = {
     loadAd: load,
     sendAd: send
   };
