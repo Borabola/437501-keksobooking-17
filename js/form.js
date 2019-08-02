@@ -28,9 +28,10 @@
    * @param {boolean} isInitial после открытия страницы isInitial= true, после активации isInitial= false
    */
   function fillAddress(isInitial) {
+    window.pinLocations = window.pin.getMainPinLocation();
     var addressLine;
     var adFormAddress = adForm.querySelector('#address');
-    isInitial ? addressLine = window.pinLocations.mainPinX + ', ' + window.pinLocations.mainPinYInitial : addressLine = window.pinLocations.mainPinX + ', ' + Math.floor(window.pinLocations.mainPinY - window.mapPinButton.offsetWidth);
+    addressLine = (isInitial) ? window.pinLocations.mainPinX + ', ' + window.pinLocations.mainPinYInitial : window.pinLocations.mainPinX + ', ' + Math.floor(window.pinLocations.mainPinY - window.mapPinButton.offsetWidth);
     adFormAddress.value = addressLine;
   }
 

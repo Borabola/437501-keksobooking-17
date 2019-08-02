@@ -181,7 +181,7 @@
     window.form.resetForm();
     clearPins();
     window.card.close();
-    window.returnMainPin();
+    window.pin.returnMainPin();
     window.form.deactivatePage();
     window.resetFilters();
     window.photo.resetAvatar();

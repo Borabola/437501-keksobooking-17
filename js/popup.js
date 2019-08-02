@@ -43,7 +43,7 @@
       window.form.resetForm();
       window.map.clearPins();
       window.card.close();
-      window.returnMainPin();
+      window.pin.returnMainPin();
       window.form.deactivatePage();
       window.resetFilters();
       window.isRenderPinsCalled = false;

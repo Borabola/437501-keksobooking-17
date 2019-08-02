@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var ENTER_KEYCODE = 13;
   var housingPriceMap = {
     'low': {
       min: 0,
@@ -118,7 +119,35 @@
     window.card.close();
   }
 
-  mapFilters.addEventListener('change', onFiltersChange);
+  /**
+   * Функция изменяет состояние checked у инпута
+   * @param {HTMLElement} input
+   */
+  function switchFeaturesChecked(input) {
+    input.checked = !input.checked;
+  }
+
+  /**
+   * Функция проверяет нажатие Enter и вызывает необходимую функцию
+   * @param {KeyboardEvent} evt
+   * @param {HTMLElement} input
+   */
+  function checkEnter(evt, input) {
+    if (evt.key === 'Enter' || evt.keyCode === ENTER_KEYCODE) {
+      switchFeaturesChecked(input);
+    }
+  }
+
+  /**
+   * Функция  захватывает требуемые input в замыкание и возвращает фактическую функцию-обработчик
+   * @param {HTMLElement} input
+   * @return {Function}
+   */
+  function onFeaturesEnter(input) {
+    return function (evt) {
+      checkEnter(evt, input);
+    };
+  }
 
   window.resetFilters = function () {
     housingTypeFilter.value = anyValue;
@@ -129,4 +158,12 @@
       housingFeatures[i].checked = false;
     }
   };
+
+  mapFilters.addEventListener('change', onFiltersChange);
+  wifi.addEventListener('keydown', onFeaturesEnter(wifi));
+  dishwasher.addEventListener('keydown', onFeaturesEnter(dishwasher));
+  parking.addEventListener('keydown', onFeaturesEnter(parking));
+  washer.addEventListener('keydown', onFeaturesEnter(washer));
+  elevator.addEventListener('keydown', onFeaturesEnter(elevator));
+  conditioner.addEventListener('keydown', onFeaturesEnter(conditioner));
 })();
