@@ -31,7 +31,6 @@
   var FIVE_ENDING = 5;
   var TWO_ENDING = 20;
   var FOUR_ENDING = 20;
-  var ESC_KEYCODE = 27;
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card, .popup');
@@ -176,7 +175,7 @@
    * @param {KeyboardEvent} evt
    */
   function onCardEscPress(evt) {
-    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
+    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === window.util.ESC_KEYCODE) {
       onCardCloseClick();
     }
   }

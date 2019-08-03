@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var ENTER_KEYCODE = 13;
   var housingPriceMap = {
     'low': {
       min: 0,
@@ -133,7 +132,7 @@
    * @param {HTMLElement} input
    */
   function checkEnter(evt, input) {
-    if (evt.key === 'Enter' || evt.keyCode === ENTER_KEYCODE) {
+    if (evt.key === 'Enter' || evt.keyCode === window.util.ENTER_KEYCODE) {
       switchFeaturesChecked(input);
     }
   }

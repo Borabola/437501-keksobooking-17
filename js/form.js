@@ -3,7 +3,6 @@
  * Модуль работы с формой
  */
 (function () {
-  var ENTER_KEYCODE = 13;
   var MinPrice = {
     BUNGALO: 0,
     FLAT: 1000,
@@ -86,7 +85,7 @@
    */
   function onAdFormEnter(evt) {
     var adFormButtons = [resetButton, submitButton];
-    if (adFormButtons.indexOf(evt.target) === -1 && (evt.key === 'Enter' || evt.keyCode === ENTER_KEYCODE)) {
+    if (adFormButtons.indexOf(evt.target) === -1 && (evt.key === 'Enter' || evt.keyCode === window.util.ENTER_KEYCODE)) {
       evt.preventDefault();
     }
   }

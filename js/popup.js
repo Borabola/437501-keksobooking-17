@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
   var errorTemplate = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -16,7 +15,7 @@
    * @param {KeyboardEvent} evt
    */
   function onPopupEscPress(evt) {
-    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
+    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === window.util.ESC_KEYCODE) {
       onErrorPopupClick();
     }
   }
@@ -25,7 +24,7 @@
    * @param {KeyboardEvent} evt
    */
   function onSuccessPopupEscPress(evt) {
-    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === ESC_KEYCODE) {
+    if (evt.key === 'Escape' || evt.key === 'Esc' || evt.keyCode === window.util.ESC_KEYCODE) {
       onSuccessPopupClick();
       document.removeEventListener('click', onSuccessPopupClick);
     }
