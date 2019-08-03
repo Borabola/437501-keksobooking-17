@@ -149,7 +149,7 @@
     };
   }
 
-  window.resetFilters = function () {
+  function resetFilters() {
     housingTypeFilter.value = anyValue;
     housingPrice.value = anyValue;
     housingRoom.value = anyValue;
@@ -157,7 +157,7 @@
     for (var i = 0; i < housingFeatures.length; i++) {
       housingFeatures[i].checked = false;
     }
-  };
+  }
 
   mapFilters.addEventListener('change', onFiltersChange);
   wifi.addEventListener('keydown', onFeaturesEnter(wifi));
@@ -166,4 +166,9 @@
   washer.addEventListener('keydown', onFeaturesEnter(washer));
   elevator.addEventListener('keydown', onFeaturesEnter(elevator));
   conditioner.addEventListener('keydown', onFeaturesEnter(conditioner));
+
+  window.filters = {
+    resetFilters: resetFilters,
+    onFeaturesEnter: onFeaturesEnter
+  };
 })();

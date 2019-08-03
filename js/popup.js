@@ -45,7 +45,7 @@
       window.card.close();
       window.pin.returnMainPin();
       window.form.deactivatePage();
-      window.resetFilters();
+      window.filters.resetFilters();
       window.isRenderPinsCalled = false;
       window.isLoadCalled = false;
     }

@@ -3,6 +3,13 @@
  * Модуль работы с формой
  */
 (function () {
+  var ENTER_KEYCODE = 13;
+  var MinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000,
+  };
   var mapFilter = document.querySelector('.map__filters-container');
   var mapFilterFieldsetList = mapFilter.querySelectorAll('fieldset');
   var adForm = document.querySelector('.ad-form');
@@ -10,18 +17,21 @@
 
   var typeOfHousing = adForm.querySelector('#type');
 
-  var checkInTime = document.querySelector('#timein');
-  var checkOutTime = document.querySelector('#timeout');
+  var checkInTime = adForm.querySelector('#timein');
+  var checkOutTime = adForm.querySelector('#timeout');
   var room = adForm.querySelector('#room_number');
   var guest = adForm.querySelector('#capacity');
   var inputPrice = adForm.querySelector('#price');
   var resetButton = adForm.querySelector('button[type=reset]');
-  var MinPrice = {
-    BUNGALO: 0,
-    FLAT: 1000,
-    HOUSE: 5000,
-    PALACE: 10000
-  };
+  var submitButton = adForm.querySelector('button[type=submit]');
+
+  var wifiForm = adForm.querySelector('#feature-wifi');
+  var dishwasherForm = adForm.querySelector('#feature-dishwasher');
+  var parkingForm = adForm.querySelector('#feature-parking');
+  var washerForm = adForm.querySelector('#feature-washer');
+  var elevatorForm = adForm.querySelector('#feature-elevator');
+  var conditionerForm = adForm.querySelector('#feature-conditioner');
+
 
   /**
    * Функция берет координаты mainPinX и mainPinY указателя пина и записывает их в строку адреса. В неактивном режиме круглый пин с координатами mainPinX, mainPinYInitial
@@ -68,6 +78,17 @@
     window.cityMap.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     fillAddress(true);
+  }
+
+  /**
+   * Функция отменяет событие по умолчанию на всех полях формы, кроме кнопок Submit и reset
+   * @param {KeyboardEvent} evt
+   */
+  function onAdFormEnter(evt) {
+    var adFormButtons = [resetButton, submitButton];
+    if (adFormButtons.indexOf(evt.target) === -1 && (evt.key === 'Enter' || evt.keyCode === ENTER_KEYCODE)) {
+      evt.preventDefault();
+    }
   }
 
   function onTypeOfHousingChange() {
@@ -133,12 +154,20 @@
     window.network.sendAd(formData, window.map.onSendSuccess, window.map.onSendError);
   }
   );
+
+  adForm.addEventListener('keydown', onAdFormEnter);
   resetButton.addEventListener('click', window.map.onSendSuccess);
+  wifiForm.addEventListener('keydown', window.filters.onFeaturesEnter(wifiForm));
+  dishwasherForm.addEventListener('keydown', window.filters.onFeaturesEnter(dishwasherForm));
+  parkingForm.addEventListener('keydown', window.filters.onFeaturesEnter(parkingForm));
+  washerForm.addEventListener('keydown', window.filters.onFeaturesEnter(washerForm));
+  elevatorForm.addEventListener('keydown', window.filters.onFeaturesEnter(elevatorForm));
+  conditionerForm.addEventListener('keydown', window.filters.onFeaturesEnter(conditionerForm));
 
   window.form = {
     fillAddress: fillAddress,
     activatePage: activatePage,
     deactivatePage: deactivatePage,
-    resetForm: resetForm
+    resetForm: resetForm,
   };
 })();

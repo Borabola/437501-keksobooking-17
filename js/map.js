@@ -183,7 +183,7 @@
     window.card.close();
     window.pin.returnMainPin();
     window.form.deactivatePage();
-    window.resetFilters();
+    window.filters.resetFilters();
     window.photo.resetAvatar();
     window.photo.resetPhoto();
     window.popup.renderSuccessMessage();
