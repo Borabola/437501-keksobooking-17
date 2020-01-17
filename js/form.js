@@ -84,8 +84,14 @@
    * @param {KeyboardEvent} evt
    */
   function onAdFormEnter(evt) {
-    var adFormButtons = [resetButton, submitButton];
-    if (adFormButtons.indexOf(evt.target) === -1 && (evt.key === 'Enter' || evt.keyCode === window.util.ENTER_KEYCODE)) {
+    //var adFormButtons = [resetButton, submitButton];
+    //if (adFormButtons.indexOf(evt.target) === -1 && (evt.key === 'Enter' || evt.keyCode === window.util.ENTER_KEYCODE)) {
+    //  evt.preventDefault();
+    //}
+
+    var isEnter = (evt.key === 'Enter' || evt.keyCode === window.util.ENTER_KEYCODE);
+
+    if (isEnter && evt.target !== resetButton && evt.target !== submitButton) { // !(a && b) === !a || !b
       evt.preventDefault();
     }
   }

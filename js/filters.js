@@ -83,6 +83,7 @@
    */
   function checkFeaturesChange(input, ad) {
     if (!input.checked) {
+      console.log(input + 'не отмечен');
       return true;
     }
     return ad.offer.features.indexOf(input.value) !== -1;
